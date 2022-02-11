@@ -1,0 +1,10 @@
+version: '2'
+services:
+  secu_manif:
+    container_name: three-space
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3716:3000'
+    restart: unless-stopped

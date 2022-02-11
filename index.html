@@ -77,7 +77,7 @@
       // // Create the sun map & geometry
       var mapUrl = "images/2k_sun.jpg";
       var map = new THREE.TextureLoader().load(mapUrl);
-      var sun_material = new THREE.MeshBasicMaterial({ map: map });
+      var sun_material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
       var geometry = new THREE.SphereGeometry(.9, 32, 32);
       sun = new THREE.Mesh(geometry, sun_material);
       sun.position.set(0, 0, 0);

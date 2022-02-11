@@ -8,7 +8,6 @@ RUN adduser -D static
 USER static
 WORKDIR .
 
-
 # Copy the static website
 # Use the .dockerignore file to control what ends up inside the image!
 COPY . .

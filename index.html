@@ -109,7 +109,7 @@
       var mars_geometry = new THREE.SphereGeometry(.5, 50, 50);
       mars = new THREE.Mesh(mars_geometry, mars_material);
 
-      mars.position.set(0, 0, 0);
+      mars.position.set(5, 0, 0);
       mars.rotation.y = Math.PI / 5;
       mars.rotation.x = Math.PI / 5;
 
@@ -153,7 +153,7 @@
       mars_group = new THREE.Group();
       mars_group.add(mars)
 
-      mars_group.position.set(5, 0, 0);
+      mars_group.position.set(0, 0, 0);
 
       moon_group = new THREE.Group();
       moon_group.add(moon);
@@ -168,7 +168,6 @@
 
 
       solar_sys = new THREE.Group();
-      solar_sys.add(mars_group);
       solar_sys.add(earth_group);
       solar_sys.add(sun_light);
       solar_sys.add(sun);
@@ -186,6 +185,7 @@
 
       // Finally, add the mesh to our scene
       scene.add(solar_sys);
+      scene.add(mars_group);
     }
 
     // This function is called regularly to update the canvas webgl.
@@ -221,14 +221,18 @@
       var angleR = fracTime * Math.PI * 2;
 
 
-      mars.rotation.y +=  angleR / 12;
-      
-      sun.rotation.y += angleR / 365;
-      solar_sys.rotation.y += 10 * angleR / 365;         // la terre tourne en 365 jours
-      earth_group.rotation.y += angleR / 365;         // la terre tourne en 365 jours
+      mars.rotation.y += angle;
+      mars_group.rotation.y += angleR / 687; 
+
       earth.rotation.y += angle;                     // et en un jour sur elle-même
+      earth_group.rotation.y += angleR / 365;         // la terre tourne en 365 jours
+      
       moon_group.rotation.y += angle / 28; // la lune tourne en 28 jours autour de la terre
       moon.rotation.y += angleR / 28; // et en 28 jours aussi sur elle-même pour faire face à la terre
+
+      sun.rotation.y += angleR / 365;
+      solar_sys.rotation.y += angleR / 365;         // la terre tourne en 365 jours
+      
       
       cameraAngle += angleR / 100;
 

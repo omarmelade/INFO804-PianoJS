@@ -13,7 +13,7 @@
 //    Zoom - middle mouse, or mousewheel / touch: two-finger spread or squish
 //    Pan - right mouse, or arrow keys / touch: two-finger move
 
-THREE.OrbitControls = function ( object, domElement, target = new THREE.Vector3()) {
+THREE.OrbitControls = function ( object, domElement) {
 
 	this.object = object;
 
@@ -23,7 +23,7 @@ THREE.OrbitControls = function ( object, domElement, target = new THREE.Vector3(
 	this.enabled = true;
 
 	// "target" sets the location of focus, where the object orbits around
-	this.target = target;
+	this.target = new THREE.Vector3();
 
 	// How far you can dolly in and out ( PerspectiveCamera only )
 	this.minDistance = 0;

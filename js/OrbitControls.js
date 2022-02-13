@@ -13,7 +13,7 @@
 //    Zoom - middle mouse, or mousewheel / touch: two-finger spread or squish
 //    Pan - right mouse, or arrow keys / touch: two-finger move
 
-THREE.OrbitControls = function ( object, domElement, target = new Vector3D()) {
+THREE.OrbitControls = function ( object, domElement, target = new THREE.Vector3()) {
 
 	this.object = object;
 

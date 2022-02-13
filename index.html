@@ -9,6 +9,7 @@
 
     <script src="three.js"></script>
     <script src="js/Detector.js"></script>
+    <script src="js/OrbitControls.js"></script>
     <script type="text/javascript">
 
 
@@ -127,7 +128,14 @@
 
             /// CAMERA CONTROLS ------------------------------------------
 
-    
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            //controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
+            controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+            controls.dampingFactor = 0.25;
+            controls.screenSpacePanning = false;
+            controls.minDistance = 1;
+            controls.maxDistance = 20;
 
             // Finally, add the mesh to our scene
             //scene.add(piano_group);

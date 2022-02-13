@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build & Deploy the Docker image
-      run: docker-compose build && docker-compose up -d
+      run: docker-compose up build --force-recreate --no-deps --no-cache -d && docker-compose up -d && docker image prune -f

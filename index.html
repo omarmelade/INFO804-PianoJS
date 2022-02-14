@@ -113,10 +113,20 @@
             real_k3.position.set(0, 0, 0);
 
 
+            
+            key_group4 = new THREE.Group();
+            key_group4.add(key4);
+            key_group4.position.set(-2.5, 0.5, 2.5);
+
+            real_k4 = new THREE.Group();
+            real_k4.add(key_group4)
+            real_k4.position.set(0, 0, 0);
+
             piano_group = new THREE.Group();
             piano_group.add(real_k1);
             piano_group.add(real_k2);
             piano_group.add(real_k3);
+            piano_group.add(real_k4);
 
 
             /// CAMERA CONTROLS ------------------------------------------
@@ -141,7 +151,7 @@
             // ---------------------------------- MANAGE SOUND
             // create Oscillator node 
             var oscillator = contexteAudio.createOscillator();
-            oscillator.type = 'square';
+            oscillator.type = 'sawtooth';
             oscillator.start()
 
             const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -168,11 +178,19 @@
                     case 65:
                         real_k1.rotation.x = 0.1;
 
-                        soundNote(oscillator, real_k1, 620);
+                        soundNote(oscillator, real_k1, 262);
                         break;
                     case 90:
                         real_k2.rotation.x = 0.1;
-                        soundNote(oscillator, real_k2, 220);
+                        soundNote(oscillator, real_k2, 294);
+                        break;
+                    case 69:
+                        real_k3.rotation.x = 0.1;
+                        soundNote(oscillator, real_k3, 330);
+                        break;
+                    case 82:
+                        real_k4.rotation.x = 0.1;
+                        soundNote(oscillator, real_k3, 330);
                         break;
                 }
             }
@@ -186,6 +204,14 @@
                         break;
                     case 90:
                         stopNotes(oscillator, real_k2, 220);
+                        break;
+                    case 69:
+                        real_k3.rotation.x = 0.1;
+                        stopNotes(oscillator, real_k3, 330);
+                        break;
+                    case 82:
+                        real_k4.rotation.x = 0.1;
+                        stopNotes(oscillator, real_k4, 349 );
                         break;
                 }
             }

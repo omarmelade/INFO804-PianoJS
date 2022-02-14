@@ -76,6 +76,10 @@
             key4.position.set(6, 0, 0);
             key4.rotation.y = Math.PI / 2;
 
+            key5 = new THREE.Mesh(geometry, piano);
+            key5.position.set(8, 0, 0);
+            key5.rotation.y = Math.PI / 2;
+
 
             /// GROUPS ---------------------------------------------
 
@@ -113,7 +117,7 @@
             real_k3.position.set(0, 0, 0);
 
 
-            
+            /// K4 ---------------
             key_group4 = new THREE.Group();
             key_group4.add(key4);
             key_group4.position.set(-2.5, 0.5, 2.5);
@@ -122,11 +126,24 @@
             real_k4.add(key_group4)
             real_k4.position.set(0, 0, 0);
 
+
+            /// K5 -----------------
+            key_group5 = new THREE.Group();
+            key_group5.add(key5);
+            key_group5.position.set(-2.5, 0.5, 2.5);
+
+            real_k5 = new THREE.Group();
+            real_k5.add(key_group5)
+            real_k5.position.set(0, 0, 0);
+
+
+
             piano_group = new THREE.Group();
             piano_group.add(real_k1);
             piano_group.add(real_k2);
             piano_group.add(real_k3);
             piano_group.add(real_k4);
+            piano_group.add(real_k5);
 
 
             /// CAMERA CONTROLS ------------------------------------------
@@ -190,7 +207,11 @@
                         break;
                     case 82:
                         real_k4.rotation.x = 0.1;
-                        soundNote(oscillator, real_k3, 330);
+                        soundNote(oscillator, real_k4, 330);
+                        break;
+                    case 84:
+                        real_k5.rotation.x = 0.1;
+                        soundNote(oscillator, real_k5, 392);
                         break;
                 }
             }
@@ -212,6 +233,10 @@
                     case 82:
                         real_k4.rotation.x = 0.1;
                         stopNotes(oscillator, real_k4, 349 );
+                        break;
+                    case 84:
+                        real_k5.rotation.x = 0.1;
+                        stopNotes(oscillator, real_k5, 392 );
                         break;
                 }
             }

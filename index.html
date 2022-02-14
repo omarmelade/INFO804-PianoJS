@@ -77,18 +77,13 @@
             key4.rotation.y = Math.PI / 2;
 
 
-
-
-
             /// GROUPS ---------------------------------------------
 
 
             /// K1 -----
-            key_rot1 = new THREE.Group();
-            key_rot1.add(key1);
 
             key_group1 = new THREE.Group();
-            key_group1.add(key_rot1);
+            key_group1.add(key1);
             key_group1.position.set(-2.5, 0.5, 2.5);
 
             real_k1 = new THREE.Group();
@@ -98,11 +93,8 @@
 
             /// K2 ----------
 
-            key_rot2 = new THREE.Group();
-            key_rot2.add(key2);
-
             key_group2 = new THREE.Group();
-            key_group2.add(key_rot2);
+            key_group2.add(key2);
             key_group2.position.set(-2.5, 0.5, 2.5);
 
             real_k2 = new THREE.Group();
@@ -111,11 +103,9 @@
 
 
             /// K3 -------------
-            key_rot3 = new THREE.Group();
-            key_rot3.add(key3);
 
             key_group3 = new THREE.Group();
-            key_group3.add(key_rot3);
+            key_group3.add(key3);
             key_group3.position.set(-2.5, 0.5, 2.5);
 
             real_k3 = new THREE.Group();
@@ -123,7 +113,10 @@
             real_k3.position.set(0, 0, 0);
 
 
-
+            piano_group = new THREE.Group();
+            piano_group.add(real_k1);
+            piano_group.add(real_k2);
+            piano_group.add(real_k3);
 
 
             /// CAMERA CONTROLS ------------------------------------------
@@ -138,44 +131,66 @@
             controls.maxDistance = 20;
 
             // Finally, add the mesh to our scene
-            //scene.add(piano_group);
-            scene.add(real_k1);
-            scene.add(real_k2);
-            scene.add(real_k3);
+            scene.add(piano_group);
+
             const axesHelper = new THREE.AxesHelper(5);
             scene.add(axesHelper);
 
             var contexteAudio = new (window.AudioContext || window.webkitAudioContext)();
 
-            // create Oscillator node
+            // ---------------------------------- MANAGE SOUND
+            // create Oscillator node 
             var oscillator = contexteAudio.createOscillator();
             oscillator.type = 'square';
             oscillator.start()
 
             const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-            async function soundNote(osc, container, freq) {
+            async function soundNote(osc, container, freq, keyCode) {
                 oscillator.frequency.value = freq; // valeur en hertz
                 osc.connect(contexteAudio.destination);
-                await sleep(200);
+
+                // await sleep(200);
+                // osc.disconnect();
+                // container.rotation.x = 0;
+            }
+
+            async function stopNotes(osc, container, freq, keyCode) {
                 osc.disconnect();
                 container.rotation.x = 0;
             }
 
+            // ----------------- controls
             document.addEventListener("keydown", setupKeyControls, false);
             function setupKeyControls(e) {
-                var cube = scene.getObjectByName('cube');
+
                 switch (e.keyCode) {
                     case 65:
-                        real_k1.rotation.x += 0.1;
-                        soundNote(oscillator, real_k1, 440);
+                        real_k1.rotation.x = 0.1;
+
+                        soundNote(oscillator, real_k1, 620);
                         break;
                     case 90:
-                        real_k2.rotation.x += 0.1;
+                        real_k2.rotation.x = 0.1;
                         soundNote(oscillator, real_k2, 220);
                         break;
                 }
             }
+
+            document.addEventListener("keyup", releaseNotes, false);
+            function releaseNotes(e) {
+
+                switch (e.keyCode) {
+                    case 65:
+                        stopNotes(oscillator, real_k1, 440);
+                        break;
+                    case 90:
+                        stopNotes(oscillator, real_k2, 220);
+                        break;
+                }
+            }
+
+
 
         }
 

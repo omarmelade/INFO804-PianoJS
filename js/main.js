@@ -203,20 +203,23 @@ function init() {
             }
 
             keytab[i]['man'] = manager;
-            keytab[i]['man'].vco.frequency.value = keytab[i]['f'];
-            keytab[i]['man'].vco.start();
+    
 
             const startingPitch = manager.vco.frequency.value;
             manager.vco2.frequency.value = transpose(startingPitch, 7);
             manager.vco2.connect(manager.vca2);
             manager.vca2.connect(master);
 
- 
+            manager.vco.connect(manager.vca);
+            manager.vca.connect(master);
 
-            keytab[i]['man'].vco.connect(keytab[i]['man'].vca);
-            keytab[i]['man'].vca.connect(master);
+            manager.vco.frequency.value = keytab[i]['f'];
+            manager.vco.start();
 
-            keytab[i]['man'].vca.gain.value = 0.0001;
+            manager.vca.gain.value = 0.0001;
+            
+            
+            keytab[i]['man'] = manager;
         }
     }
     
@@ -238,7 +241,7 @@ function init() {
 
     async function stopNote(man, container) {
         man['vca'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
-        man['vca2'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+        man['vca2'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.3);
         container.rotation.x = 0;
     }
 

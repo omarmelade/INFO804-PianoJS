@@ -207,21 +207,19 @@ function init() {
             const startingPitch = keytab[i]['man'].vco.frequency.value;
 
             keytab[i]['man'].vco2.frequency.value = transpose(startingPitch, 7);
+            keytab[i]['man'].vco.frequency.value = keytab[i]['f'];
 
             keytab[i]['man'].vco2.connect(manager.vca2);
-            keytab[i]['man'].vca2.connect(master);
-
-            keytab[i]['man'].vco.frequency.value = keytab[i]['f'];
-            keytab[i]['man'].vco.start();
-            keytab[i]['man'].vco2.start();
-
             keytab[i]['man'].vco.connect(manager.vca);
+            
+            keytab[i]['man'].vca2.connect(master);
             keytab[i]['man'].vca.connect(master);
-
 
             keytab[i]['man'].vca.gain.value = 0.0001;
             keytab[i]['man'].vca2.gain.value = 0.0001;
             
+            keytab[i]['man'].vco.start();
+            keytab[i]['man'].vco2.start();
             
         }
     }

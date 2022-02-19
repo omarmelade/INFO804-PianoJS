@@ -13,4 +13,4 @@ WORKDIR /var/www/http/
 COPY . .
 
 # Run thttpd
-CMD ["thttpd", "-D", "-h", "0.0.0.0", "-p", "3000", "-u", "static", "-l", "-"]
+CMD ["thttpd", "-D", "-h", "0.0.0.0", "-p", "3000"]

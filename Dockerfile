@@ -10,7 +10,7 @@ WORKDIR /home/actions-runner/threeSPACE/INFO804-ThreeSpace/INFO804-ThreeSpace
 
 # Copy the static website
 # Use the .dockerignore file to control what ends up inside the image!
-COPY . .
+COPY . /
 
 # Run thttpd
 CMD ["thttpd", "-D", "-h", "0.0.0.0", "-p", "3000", "-u", "static", "-l", "-", "-M", "60"]

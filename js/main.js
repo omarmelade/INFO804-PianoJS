@@ -206,8 +206,10 @@ function init() {
 
             const startingPitch = keytab[i]['man'].vco.frequency.value;
 
+            keytab[i]['man'].vco2.type = 'triangle';
             keytab[i]['man'].vco2.frequency.value = transpose(startingPitch, 7);
             keytab[i]['man'].vco.frequency.value = keytab[i]['f'];
+
 
             keytab[i]['man'].vco2.connect(manager.vca2);
             keytab[i]['man'].vco.connect(manager.vca);
@@ -236,7 +238,7 @@ function init() {
     
     async function soundNote(man, container, freq) {
         man['vca'].gain.exponentialRampToValueAtTime(1, ctx.currentTime);
-        man['vca2'].gain.exponentialRampToValueAtTime(1, ctx.currentTime );
+        man['vca2'].gain.exponentialRampToValueAtTime(0.40, ctx.currentTime );
         container.rotation.x = 0.1;
     }
 

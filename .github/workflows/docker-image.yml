@@ -15,4 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build & Deploy the Docker image
-      run: docker-compose up --build --force-recreate --no-deps --detach && docker image prune -f
+      run: >-
+      docker stop three-space 
+      && docker rmi info804-threespace_secu_manif 
+      && docker rm three-space
+      && docker-compose up --build --force-recreate --no-deps --detach 
+      && docker image prune -f

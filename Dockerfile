@@ -4,6 +4,8 @@ FROM alpine:3.13.2
 RUN apk add thttpd
 
 # Create a non-root user to own the files and run our server
+RUN adduser -D static
+USER static
 WORKDIR /var/www/http/
 
 # Copy the static website

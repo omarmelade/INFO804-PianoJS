@@ -15,6 +15,8 @@ var cameraAngle = null;
 var curTime = Date.now();
 var key_grp = null;
 
+var ktab = null;
+
 // This function is called whenever the document is loaded
 function init() {
 
@@ -171,10 +173,11 @@ function init() {
 
     // Finally, add the mesh to our scene
     scene.add(piano_group);
+    piano_group.rotation.x = 0.5;
 
 
     ///// AUDIO CONTROLS
-    var ktab = [
+    ktab = [
         { key: 65, f: 261.63, c: real_k1, man: {} }, 
         { key: 90, f: 293.66, c: real_k2, man: {} }, 
         { key: 69, f: 329.63, c: real_k3, man: {} }, 
@@ -192,6 +195,9 @@ function init() {
     // transpose note for better effect 
     const transpose = (freq, steps) => freq * Math.pow(2, steps / 12);
 
+    let wave1 = document.querySelector('#vco1').selectedOptions[0].value;
+    let wave2 = document.querySelector('#vco2').selectedOptions[0].value;
+
     function initTabNotes(keytab)
     {
         for (let i = 0; i < keytab.length; i++) {
@@ -206,45 +212,48 @@ function init() {
 
             const startingPitch = keytab[i]['man'].vco.frequency.value;
 
-            keytab[i]['man'].vco2.type = 'triangle';
-            keytab[i]['man'].vco2.frequency.value = transpose(startingPitch, 7);
+            keytab[i]['man'].vco.type = wave1;
+            keytab[i]['man'].vco2.type = wave2
+            ;
             keytab[i]['man'].vco.frequency.value = keytab[i]['f'];
+            keytab[i]['man'].vco2.frequency.value = transpose(startingPitch, 7);
 
 
-            keytab[i]['man'].vco2.connect(manager.vca2);
             keytab[i]['man'].vco.connect(manager.vca);
+            keytab[i]['man'].vco2.connect(manager.vca2);
             
-            keytab[i]['man'].vca2.connect(master);
             keytab[i]['man'].vca.connect(master);
+            keytab[i]['man'].vca2.connect(master);
 
-            keytab[i]['man'].vca.gain.value = 0.0001;
-            keytab[i]['man'].vca2.gain.value = 0.0001;
+            keytab[i]['man'].vca.gain.value = 0.00001;
+            keytab[i]['man'].vca2.gain.value = 0.00001;
             
             keytab[i]['man'].vco.start();
             keytab[i]['man'].vco2.start();
             
         }
     }
-    
-        
+
+                
     // ---------------------------------- MANAGE SOUND
     // create Oscillator node 
     // var oscillator = ctx.createOscillator();
     // oscillator.type = 'triangle';
     // oscillator.start()
 
-    osctab = initTabNotes(ktab);
+    initTabNotes(ktab);
+
     const sleep = ms => new Promise(r => setTimeout(r, ms));
     
     async function soundNote(man, container, freq) {
-        man['vca'].gain.exponentialRampToValueAtTime(1, ctx.currentTime);
+        man['vca'].gain.exponentialRampToValueAtTime(0.8, ctx.currentTime);
         man['vca2'].gain.exponentialRampToValueAtTime(0.40, ctx.currentTime );
         container.rotation.x = 0.1;
     }
 
     async function stopNote(man, container) {
         man['vca'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
-        man['vca2'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+        man['vca2'].gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.5);
         container.rotation.x = 0;
     }
 
@@ -262,7 +271,6 @@ function init() {
                 let c = ktab[i]['c'];
                 soundNote(man, c, ktab[i]['f']);
             }
-            
         }
     }
 
@@ -314,4 +322,22 @@ function animate() {
     var angle = 0.1 * Math.PI * 2 * fracTime; // one turn per 10 second.
     var angleR = fracTime * Math.PI * 2;
 
+}
+
+function changeVC01()
+{
+    let newWave = document.querySelector('#vco1').selectedOptions[0].value;
+
+    for (let i = 0; i < ktab.length; i++) {
+        ktab[i]['man'].vco.type = newWave;
+    }
+}
+
+function changeVC02()
+{
+    let newWave = document.querySelector('#vco2').selectedOptions[0].value;
+
+    for (let i = 0; i < ktab.length; i++) {
+        ktab[i]['man'].vco2.type = newWave;
+    }
 }

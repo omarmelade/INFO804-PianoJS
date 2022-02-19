@@ -385,10 +385,9 @@ function changeVC02()
 
 // Volume controls
 
-function changeMasterVol()
+function changeP2Vol()
 {
-    let val = document.querySelector("#masterVol").value / 100;
-    master.gain.value = val;
+    p2 = document.querySelector("#p2Vol").value;
 }
 
 function changePisteVal(id, piste)
@@ -402,7 +401,9 @@ function changeP1Vol()
     p1 = document.querySelector("#p1Vol").value;
 }
 
-function changeP2Vol()
+
+function changeMasterVol()
 {
-    p2 = document.querySelector("#p2Vol").value;
+    let val = document.querySelector("#masterVol").value / 100;
+    master.gain.value = val;
 }

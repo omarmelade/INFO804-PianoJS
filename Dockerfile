@@ -6,7 +6,7 @@ RUN apk add thttpd
 # Create a non-root user to own the files and run our server
 RUN adduser -D static
 USER static
-WORKDIR /home/actions-runner/threeSPACE/INFO804-ThreeSpace/INFO804-ThreeSpace
+WORKDIR /var/www/http/
 
 # Copy the static website
 # Use the .dockerignore file to control what ends up inside the image!

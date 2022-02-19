@@ -21,34 +21,42 @@
         </div>
         <div class="controller">
             <p class="tvco title""> Voltage-Controlled Oscillator</p>
-            <div>
-                <div class="slidecontainer">
-                    <label class="title"> Master Volume </label><br>
-                    <input onchange="changeMasterVol()" type="range" min="1" max="100" value="40" class="slider" id="masterVol">
-                </div>
-            </div>
             <div class="box vco-controller">
                 <div>
                     <label> VCO - 1 : Wave chooser</label>
                     <div class="div-select">
                         <select class="minimal" id="vco1" onchange="changeVC01()">
-                          <option value="sine">Sine</option>
-                          <option value="square">Square</option>
-                          <option value="triangle">Triangle</option>
+                            <option value="sine">Sine</option>
+                            <option value="square">Square</option>
+                          <option value="triangle" selected>Triangle</option>
                           <option value="sawtooth">Sawtooth</option>
                         </select>
-                      </div>
+                    </div>
                 </div>
                 <div>
-                  <label> VCO - 2 : Wave chooser</label>
-                  <div class="div-select">
-                      <select class="minimal" id="vco2" onchange="changeVC02()">
-                        <option value="sine">Sine</option>
-                        <option value="square">Square</option>
-                        <option value="triangle">Triangle</option>
-                        <option value="sawtooth">Sawtooth</option>
-                      </select>
-                    </div>
+                    <label> VCO - 2 : Wave chooser</label>
+                    <div class="div-select">
+                        <select class="minimal" id="vco2" onchange="changeVC02()">
+                            <option value="sine">Sine</option>
+                            <option value="square">Square</option>
+                            <option value="triangle">Triangle</option>
+                            <option value="sawtooth">Sawtooth</option>
+                    </select>
+                </div>
+                </div>
+            </div>
+            <hr/>
+            <div>
+                <label class="title"> Volume </label><br>
+                <div class="txt-container">
+                    <label class="master txt-vol">MASTER</label>
+                    <label class="p1 txt-vol">VCO 1</label>
+                    <label class="p2 txt-vol">VCO 2</label>
+                </div>
+                <div>
+                    <input id="masterVol" class="master vol" onchange="changeMasterVol()" type="range" min="0" max="2" value="1" step="0.01"  orient="vertical">
+                    <input id="p1Vol" class="p1 vol" onchange="changeP1Vol()" type="range" min="0.001" max="1" value="0.5" step="0.01" orient="vertical" />
+                    <input id="p2Vol" class="p2 vol" onchange="changeP2Vol()" type="range" min="0.001" max="1" value="0.5" step="0.01" orient="vertical" />
                 </div>
             </div>
         </div>

@@ -15,8 +15,23 @@ var cameraAngle = null;
 var curTime = Date.now();
 var key_grp = null;
 
+var sphere = null;
+
+// Sound things 
+
 var ktab = null;
 var master = null;
+var p1 = null;
+var p2 = null;
+var analyser = null;
+
+// sound ints array
+var dataArray = [];
+var bufferLength
+
+// Audio context 
+var ctx = new (window.AudioContext || window.webkitAudioContext)();
+
 // This function is called whenever the document is loaded
 function init() {
 
@@ -168,6 +183,12 @@ function init() {
     scene.add( amL );
 
 
+    // const sg = new THREE.BoxGeometry( 4, 4, 4);
+    // const sm = new THREE.MeshNormalMaterial();
+    // sphere = new THREE.Mesh( sg, sm );
+    // scene.add( sphere );
+    // sphere.position.set(0, 4, -4)
+
     /// CAMERA CONTROLS ------------------------------------------
 
     controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -195,10 +216,21 @@ function init() {
         { key: 85, f: 493.88, c: real_k7, man: {} }
     ];
     
-    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    
     master = ctx.createGain();
-    master.gain.value = 0.4;
-    master.connect(ctx.destination);
+    master.gain.value = 0.02;
+    // master.connect(ctx.destination);
+
+    analyser = ctx.createAnalyser();
+    analyser.fftSize = 2048;
+    
+    bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+    analyser.getByteTimeDomainData(dataArray);
+    
+    master.connect(analyser);
+    analyser.connect(ctx.destination);
+
 
     // transpose note for better effect 
     const transpose = (freq, steps) => freq * Math.pow(2, steps / 12);
@@ -221,8 +253,8 @@ function init() {
             const startingPitch = keytab[i]['man'].vco.frequency.value;
 
             keytab[i]['man'].vco.type = wave1;
-            keytab[i]['man'].vco2.type = wave2
-            ;
+            keytab[i]['man'].vco2.type = wave2;
+
             keytab[i]['man'].vco.frequency.value = keytab[i]['f'];
             keytab[i]['man'].vco2.frequency.value = transpose(startingPitch, 7);
 
@@ -244,22 +276,21 @@ function init() {
 
                 
     // ---------------------------------- MANAGE SOUND
-    // create Oscillator node 
-    // var oscillator = ctx.createOscillator();
-    // oscillator.type = 'triangle';
-    // oscillator.start()
-
     initTabNotes(ktab);
 
-    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    p1 = 0.8;
+    p2 = 0.40;
     
-    async function soundNote(man, container, freq) {
-        man['vca'].gain.exponentialRampToValueAtTime(0.8, ctx.currentTime - 0.01);
-        man['vca2'].gain.exponentialRampToValueAtTime(0.40, ctx.currentTime );
+    async function soundNote(man, container) {
+
+        man['vca'].gain.exponentialRampToValueAtTime(p1, ctx.currentTime - 0.01);
+        man['vca2'].gain.exponentialRampToValueAtTime(p2, ctx.currentTime );
+
         container.rotation.x = 0.1;
     }
 
     async function stopNote(man, container) {
+
         man['vca'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
         man['vca2'].gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.5);
         container.rotation.x = 0;
@@ -277,7 +308,7 @@ function init() {
             {
                 let man = ktab[i]['man'];
                 let c = ktab[i]['c'];
-                soundNote(man, c, ktab[i]['f']);
+                soundNote(man, c);
             }
         }
     }
@@ -303,7 +334,6 @@ function init() {
 function run() {
     // Ask to call again run 
     requestAnimationFrame(run);
-
     // Render the scene
     render();
 
@@ -330,6 +360,9 @@ function animate() {
     var angle = 0.1 * Math.PI * 2 * fracTime; // one turn per 10 second.
     var angleR = fracTime * Math.PI * 2;
 
+    analyser.getByteTimeDomainData(dataArray);
+
+ 
 }
 
 function changeVC01()
@@ -350,9 +383,29 @@ function changeVC02()
     }
 }
 
+// Volume controls
+
 function changeMasterVol()
 {
-    let val = document.querySelector("#masterVol").value / 100;
-    console.log(val);
-    master.gain.value = val;
+    let val = document.querySelector("#"+id).value / 100;
+    controller.gain.value = val;
+}
+
+function changePisteVal(id, piste)
+{
+    piste = document.querySelector("#"+id).value;
+    console.log(piste);
+}
+
+
+function changeP1Vol()
+{   
+    console.log(p1);
+    p1 = document.querySelector("#p1Vol").value;
+    console.log(p1);
+}
+
+function changeP2Vol()
+{
+    changePisteVal('p2Vol', p2)
 }

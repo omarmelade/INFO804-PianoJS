@@ -68,7 +68,7 @@ div.div-select > *
 .title
 {
     text-align: center;
-    font-size: large;
+    font-size: 28px;
 }
 
 .slidecontainer {
@@ -80,4 +80,21 @@ div.div-select > *
     margin: 0 auto;
     width: 75%; /* Full-width */
     height: 25px; /* Specified height */
+}
+
+.vol{
+    margin: 0 2.2em;
+    width: 5vw;
+    text-align: left;
+}
+
+.txt-vol
+{
+    margin: 0 2.5em;
+    width: 10vw;
+    text-align: left;
+}
+
+.txt-container{
+    margin: 1em 0;
 }

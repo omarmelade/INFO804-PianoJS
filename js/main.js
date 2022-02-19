@@ -387,8 +387,8 @@ function changeVC02()
 
 function changeMasterVol()
 {
-    let val = document.querySelector("#"+id).value / 100;
-    controller.gain.value = val;
+    let val = document.querySelector("#masterVol").value / 100;
+    master.gain.value = val;
 }
 
 function changePisteVal(id, piste)
@@ -397,15 +397,12 @@ function changePisteVal(id, piste)
     console.log(piste);
 }
 
-
 function changeP1Vol()
 {   
-    console.log(p1);
     p1 = document.querySelector("#p1Vol").value;
-    console.log(p1);
 }
 
 function changeP2Vol()
 {
-    changePisteVal('p2Vol', p2)
+    p2 = document.querySelector("#p2Vol").value;
 }

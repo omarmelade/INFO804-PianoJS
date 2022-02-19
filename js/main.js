@@ -16,7 +16,7 @@ var curTime = Date.now();
 var key_grp = null;
 
 var ktab = null;
-
+var master = null;
 // This function is called whenever the document is loaded
 function init() {
 
@@ -43,36 +43,36 @@ function init() {
 
 
     //  Create the sun map & geometry
-    var piano = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    var key2color = new THREE.MeshBasicMaterial({ color: 0xf1ff });
+    var piano = new THREE.MeshPhongMaterial({ color: 0xffffff });
+    var key2color = new THREE.MeshPhongMaterial({ color: 0xf1ff });
     var geometry = new THREE.CubeGeometry(5, 1, 2);
 
     key1 = new THREE.Mesh(geometry, piano);
     key1.position.set(0, 0, 0);
     key1.rotation.y = Math.PI / 2;
 
-    key2 = new THREE.Mesh(geometry, key2color);
-    key2.position.set(2, 0, 0);
+    key2 = new THREE.Mesh(geometry, piano);
+    key2.position.set(2.1, 0, 0);
     key2.rotation.y = Math.PI / 2;
 
     key3 = new THREE.Mesh(geometry, piano);
-    key3.position.set(4, 0, 0);
+    key3.position.set(4.2, 0, 0);
     key3.rotation.y = Math.PI / 2;
 
-    key4 = new THREE.Mesh(geometry, key2color);
-    key4.position.set(6, 0, 0);
+    key4 = new THREE.Mesh(geometry, piano);
+    key4.position.set(6.3, 0, 0);
     key4.rotation.y = Math.PI / 2;
 
     key5 = new THREE.Mesh(geometry, piano);
-    key5.position.set(8, 0, 0);
+    key5.position.set(8.4, 0, 0);
     key5.rotation.y = Math.PI / 2;
 
-    key6 = new THREE.Mesh(geometry, key2color);
-    key6.position.set(10, 0, 0);
+    key6 = new THREE.Mesh(geometry, piano);
+    key6.position.set(10.5, 0, 0);
     key6.rotation.y = Math.PI / 2;
 
     key7 = new THREE.Mesh(geometry, piano);
-    key7.position.set(12, 0, 0);
+    key7.position.set(12.6, 0, 0);
     key7.rotation.y = Math.PI / 2;
 
     /// GROUPS ---------------------------------------------
@@ -160,6 +160,14 @@ function init() {
     piano_group.position.set(-3,0,0);
 
 
+    light = new THREE.PointLight( 0xffffff, 1.5);
+    light.position.set( -2, 10, 20);
+    scene.add( light );
+    
+    const amL = new THREE.AmbientLight( 0x404040 ); // soft white light
+    scene.add( amL );
+
+
     /// CAMERA CONTROLS ------------------------------------------
 
     controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -188,8 +196,8 @@ function init() {
     ];
     
     var ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const master = ctx.createGain();
-    master.gain.value = 0.8;
+    master = ctx.createGain();
+    master.gain.value = 0.4;
     master.connect(ctx.destination);
 
     // transpose note for better effect 
@@ -246,7 +254,7 @@ function init() {
     const sleep = ms => new Promise(r => setTimeout(r, ms));
     
     async function soundNote(man, container, freq) {
-        man['vca'].gain.exponentialRampToValueAtTime(0.8, ctx.currentTime);
+        man['vca'].gain.exponentialRampToValueAtTime(0.8, ctx.currentTime - 0.01);
         man['vca2'].gain.exponentialRampToValueAtTime(0.40, ctx.currentTime );
         container.rotation.x = 0.1;
     }
@@ -340,4 +348,11 @@ function changeVC02()
     for (let i = 0; i < ktab.length; i++) {
         ktab[i]['man'].vco2.type = newWave;
     }
+}
+
+function changeMasterVol()
+{
+    let val = document.querySelector("#masterVol").value / 100;
+    console.log(val);
+    master.gain.value = val;
 }

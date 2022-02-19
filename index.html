@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="css/basic.css">
+    <link rel="stylesheet" href="css/selector.css">
 
     <script src="three.js"></script>
     <script src="js/Detector.js"></script>
@@ -16,30 +17,36 @@
 <body>
     <div class="box">
         <div class="c1">
-            <canvas id="webglcanvas" style="border: none;background-color:#000000" width="1920" height="1080"></canvas>
+            <canvas id="webglcanvas" width="1920" height="1080"></canvas>
         </div>
         <div class="controller">
-            <p class="title-vco""> Voltage-Controlled Oscillator</p>
+            <p class="tvco title""> Voltage-Controlled Oscillator</p>
+            <div>
+                <div class="slidecontainer">
+                    <label class="title"> Master Volume </label><br>
+                    <input onchange="changeMasterVol()" type="range" min="1" max="100" value="40" class="slider" id="masterVol">
+                </div>
+            </div>
             <div class="box vco-controller">
                 <div>
                     <label> VCO - 1 : Wave chooser</label>
-                    <div class="custom-select" style="width:200px;">
-                        <select id="vco1" onchange="changeVC01()">
-                          <option value="sine">Sine wave</option>
-                          <option value="square">Square wave</option>
-                          <option value="triangle">Triangle wave</option>
-                          <option value="sawtooth">Sawtooth wave</option>
+                    <div class="div-select">
+                        <select class="minimal" id="vco1" onchange="changeVC01()">
+                          <option value="sine">Sine</option>
+                          <option value="square">Square</option>
+                          <option value="triangle">Triangle</option>
+                          <option value="sawtooth">Sawtooth</option>
                         </select>
                       </div>
                 </div>
                 <div>
                   <label> VCO - 2 : Wave chooser</label>
-                  <div class="custom-select" style="width:200px;">
-                      <select id="vco2" onchange="changeVC02()">
-                        <option value="sine">Sine wave</option>
-                        <option value="square">Square wave</option>
-                        <option value="triangle">Triangle wave</option>
-                        <option value="sawtooth">Sawtooth wave</option>
+                  <div class="div-select">
+                      <select class="minimal" id="vco2" onchange="changeVC02()">
+                        <option value="sine">Sine</option>
+                        <option value="square">Square</option>
+                        <option value="triangle">Triangle</option>
+                        <option value="sawtooth">Sawtooth</option>
                       </select>
                     </div>
                 </div>

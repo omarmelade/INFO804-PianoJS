@@ -1,7 +1,7 @@
 version: '2'
 services:
-  piano_js:
-    container_name: three-space
+  piano_three_js:
+    container_name: piano-space
     build:
       context: .
       dockerfile: Dockerfile

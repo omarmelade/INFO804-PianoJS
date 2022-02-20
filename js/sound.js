@@ -32,8 +32,6 @@ let chunks = [];
 
 // Sounds visualisation
 var analyser = null;
-var canvas2 = null;
-var contexteCanvas;
 var tailleMemoireTampon;
 var tableauDonnees = new Uint8Array(tailleMemoireTampon);;
 
@@ -235,30 +233,28 @@ function init() {
     master.gain.value = 0.02;
     master.connect(ctx.destination);
 
-    // dest = ctx.createMediaStreamDestination();
-    // mediaRecorder = new MediaRecorder(dest.stream);
-    // master.connect(dest);
+    dest = ctx.createMediaStreamDestination();
+    mediaRecorder = new MediaRecorder(dest.stream);
+    master.connect(dest);
 
-    // mediaRecorder.ondataavailable = function(evt) {
-    //     // push each chunk (blobs) in an array
-    //     chunks.push(evt.data);
-    // };
+    mediaRecorder.ondataavailable = function(evt) {
+        // push each chunk (blobs) in an array
+        chunks.push(evt.data);
+    };
 
-    // mediaRecorder.onstop = function(evt) {
-    //     // Make blob out of our blobs, and open it.
-    //     let blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-    //     let audioTag = document.createElement('audio');
-    //     document.querySelector("audio").src = URL.createObjectURL(blob);
-    // };
+    mediaRecorder.onstop = function(evt) {
+        // Make blob out of our blobs, and open it.
+        let blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+        let audioTag = document.createElement('audio');
+        document.querySelector("audio").src = URL.createObjectURL(blob);
+    };
 
-    // analyser = ctx.createAnalyser();
-    // analyser.connect(dest);
+    analyser = ctx.createAnalyser();
+    analyser.connect(dest);
 
-    // analyser.fftSize = 2048;
-    // tailleMemoireTampon = analyser.frequencyBinCount;
-    // analyser.getByteTimeDomainData(tableauDonnees);
-    // canvas2 = document.getElementById("oscilloscope");
-    // contexteCanvas = canvas2.getContext("2d");
+    analyser.fftSize = 2048;
+    tailleMemoireTampon = analyser.frequencyBinCount;
+    analyser.getByteTimeDomainData(tableauDonnees);
 
     // transpose note for better effect 
     function transpose(freq, steps)
@@ -328,8 +324,6 @@ function init() {
     }
 
     async function stopNote(man, container, tab) {
-
-        // console.log(ctx.currentTime, tab['sTime'], ctx.currentTime - tab['sTime']);
         
         if(ctx.currentTime - tab['sTime'] < 0.2)
         {
@@ -343,8 +337,6 @@ function init() {
         container.rotation.x = 0;
         
     }
-
-
     
     // ----------------- controls
     document.addEventListener("keydown", setupKeyControls, false);
@@ -376,21 +368,21 @@ function init() {
 
     
     // Record 
-    // let record = document.querySelector("#rec");
+    let record = document.querySelector("#rec");
 
-    // record.addEventListener("click", function(e) {
-    //     if (!clicked) {
-    //         mediaRecorder.start();
-    //         e.target.innerHTML = "Stop recording";
-    //         clicked = true;
-    //     } else {
-    //         chunks = [];
-    //         clicked = false;
-    //         mediaRecorder.requestData();
-    //         mediaRecorder.stop();
-    //         e.target.innerHTML = "Record again";
-    //     }
-    // });
+    record.addEventListener("click", function(e) {
+        if (!clicked) {
+            mediaRecorder.start();
+            e.target.innerHTML = "Stop recording";
+            clicked = true;
+        } else {
+            chunks = [];
+            clicked = false;
+            mediaRecorder.requestData();
+            mediaRecorder.stop();
+            e.target.innerHTML = "Record again";
+        }
+    });
 
 
 }
@@ -468,39 +460,3 @@ function changeMasterVol()
     let val = document.querySelector("#masterVol").value / 100;
     master.gain.value = val;
 }
-
-
-// function dessiner() {
-
-//     requestAnimationFrame(dessiner);
-
-//     analyser.getByteTimeDomainData(tableauDonnees);
-
-//     contexteCanvas.fillStyle = 'rgb(200, 200, 200)';
-//     contexteCanvas.fillRect(0, 0, window.innerWidth, window.innerHeight);
-
-//     contexteCanvas.lineWidth = 2;
-//     contexteCanvas.strokeStyle = 'rgb(0, 0, 0)';
-
-//     contexteCanvas.beginPath();
-
-//     var sliceWidth = window.innerWidth * 1.0 / tailleMemoireTampon;
-//     var x = 0;
-
-//     for(var i = 0; i < tailleMemoireTampon; i++) {
-
-//     var v = tableauDonnees[i] / 128.0;
-//     var y = v * window.innerHeight/2;
-
-//     if(i === 0) {
-//         contexteCanvas.moveTo(x, y);
-//     } else {
-//         contexteCanvas.lineTo(x, y);
-//     }
-
-//     x += sliceWidth;
-//     }
-
-//     contexteCanvas.lineTo(canvas2.width, canvas2.height/2);
-//     contexteCanvas.stroke();
-// };

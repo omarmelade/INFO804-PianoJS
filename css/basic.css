@@ -29,6 +29,25 @@ a {
     width: 25vw;
 }
 
+.flex
+{
+    padding: 1.5em 6em;
+    display: flex;  
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.main-t
+{
+    margin: 0 0.5em !important;
+    font-size: 38px !important;
+}
+
+.no-mrg
+{
+    margin: 0;
+}
+
 .controller
 {
     color:white;

@@ -5,16 +5,15 @@ var renderer = null;
 var scene = null;
 var camera = null;
 var piano = null;
-var piano_group = null;
-var earth = null;
-var moon = null;
-var solar_sys = null;
-var moon_group = null;
-var mars = null;
 var cameraAngle = null;
 var curTime = Date.now();
-var key_grp = null;
 
+// groups
+var key_grp = null;
+var notes_group = null;
+var piano_group = null;
+
+var notes_tab = [];
 var sphere = null;
 
 // Sound things 
@@ -30,10 +29,7 @@ let mediaRecorder;
 let clicked = false;
 let chunks = [];
 
-// Sounds visualisation
-var analyser = null;
-var tailleMemoireTampon;
-var tableauDonnees = new Uint8Array(tailleMemoireTampon);;
+var directionalLight;
 
 // sound ints array
 var dataArray = [];
@@ -70,7 +66,7 @@ function init() {
     //  Create the sun map & geometry
     var piano = new THREE.MeshPhongMaterial({ color: 0xffffff });
     var key2color = new THREE.MeshPhongMaterial({ color: 0xf1ff });
-    var geometry = new THREE.CubeGeometry(5, 1, 2);
+    var geometry = new THREE.BoxGeometry(5, 1, 2);
 
     key1 = new THREE.Mesh(geometry, piano);
     key1.position.set(0, 0, 0);
@@ -100,7 +96,7 @@ function init() {
     key7.position.set(12.6, 0, 0);
     key7.rotation.y = Math.PI / 2;
 
-    /// GROUPS ---------------------------------------------
+    ///////////////////////////// GROUPS ---------------------------------------------
 
 
     /// K1 -----
@@ -185,21 +181,23 @@ function init() {
     piano_group.position.set(-3,0,0);
 
 
+    /////// NOTES GROUP
+    notes_group = new THREE.Group();
+
     light = new THREE.PointLight( 0xffffff, 1.5);
     light.position.set( -2, 10, 20);
     scene.add( light );
     
+    
     const amL = new THREE.AmbientLight( 0x404040 ); // soft white light
     scene.add( amL );
+    
+    directionalLight = new THREE.DirectionalLight( 0xf00fff, 0.5 );
+    scene.add( directionalLight );
+    scene.add( directionalLight.target );
 
 
-    // const sg = new THREE.BoxGeometry( 4, 4, 4);
-    // const sm = new THREE.MeshNormalMaterial();
-    // sphere = new THREE.Mesh( sg, sm );
-    // scene.add( sphere );
-    // sphere.position.set(0, 4, -4)
-
-    /// CAMERA CONTROLS ------------------------------------------
+    ////////////////////////////// CAMERA CONTROLS ------------------------------------------
 
     controls = new THREE.OrbitControls(camera, renderer.domElement);
 
@@ -212,49 +210,50 @@ function init() {
 
     // Finally, add the mesh to our scene
     scene.add(piano_group);
-    piano_group.rotation.x = 0.5;
+    piano_group.rotation.x = 0.2;
+    piano_group.position.y = -3;
+    
+    piano_group.add(notes_group);
+    scene.add(notes_group);
 
-
-    ///// AUDIO CONTROLS
+    //////////////////////////////// AUDIO CONTROLS
     ktab = [
-        { key: 65, f: 261.63, c: real_k1, man: {}, sTime: 0 }, 
-        { key: 90, f: 293.66, c: real_k2, man: {}, sTime: 0 }, 
-        { key: 69, f: 329.63, c: real_k3, man: {}, sTime: 0 }, 
-        { key: 82, f: 349.23, c: real_k4, man: {}, sTime: 0 }, 
-        { key: 84, f: 392.0,  c: real_k5, man: {}, sTime: 0 },
-        { key: 89, f: 440.0,  c: real_k6, man: {}, sTime: 0 },
-        { key: 85, f: 493.88, c: real_k7, man: {}, sTime: 0 }
+        { key: 65, f: 261.63, c: real_k1, man: {}, sTime: 0, pressed: false, color : 0xff0000 }, 
+        { key: 90, f: 293.66, c: real_k2, man: {}, sTime: 0, pressed: false, color : 0xff7f00 }, 
+        { key: 69, f: 329.63, c: real_k3, man: {}, sTime: 0, pressed: false, color : 0xffff00 }, 
+        { key: 82, f: 349.23, c: real_k4, man: {}, sTime: 0, pressed: false, color : 0x00ff00 }, 
+        { key: 84, f: 392.0,  c: real_k5, man: {}, sTime: 0, pressed: false, color : 0x0000ff },
+        { key: 89, f: 440.0,  c: real_k6, man: {}, sTime: 0, pressed: false, color : 0x4b0082 },
+        { key: 85, f: 493.88, c: real_k7, man: {}, sTime: 0, pressed: false, color : 0x7f00ff }
     ];
     
-
-    // const sleep = ms => new Promise(r => setTimeout(r, ms));
     
     master = ctx.createGain();
     master.gain.value = 0.02;
     master.connect(ctx.destination);
 
-    dest = ctx.createMediaStreamDestination();
-    mediaRecorder = new MediaRecorder(dest.stream);
-    master.connect(dest);
+////// SAFARI UNCOMPATIBLE 
 
-    mediaRecorder.ondataavailable = function(evt) {
-        // push each chunk (blobs) in an array
-        chunks.push(evt.data);
-    };
+    // dest = ctx.createMediaStreamDestination();
+    // mediaRecorder = new MediaRecorder(dest.stream);
+    // master.connect(dest);
 
-    mediaRecorder.onstop = function(evt) {
-        // Make blob out of our blobs, and open it.
-        let blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-        let audioTag = document.createElement('audio');
-        document.querySelector("audio").src = URL.createObjectURL(blob);
-    };
+    // mediaRecorder.ondataavailable = function(evt) {
+    //     // push each chunk (blobs) in an array
+    //     chunks.push(evt.data);
+    // };
 
-    analyser = ctx.createAnalyser();
-    analyser.connect(dest);
+    // mediaRecorder.onstop = function(evt) {
+    //     // Make blob out of our blobs, and open it.
+    //     let blob = new Blob(chunks, { 'type' : 'audio/mp3; codecs=opus' });
+    //     let audioTag = document.createElement('audio');
+    //     document.querySelector("audio").src = URL.createObjectURL(blob);
+    //     document.querySelector("#download").href = URL.createObjectURL(blob);
+    //     console.log(URL.createObjectURL(blob));
+    // };
 
-    analyser.fftSize = 2048;
-    tailleMemoireTampon = analyser.frequencyBinCount;
-    analyser.getByteTimeDomainData(tableauDonnees);
+////////////////
+
 
     // transpose note for better effect 
     function transpose(freq, steps)
@@ -297,11 +296,27 @@ function init() {
             
             keytab[i]['man'].vco.start();
             keytab[i]['man'].vco2.start();
-            
+
         }
     }
 
-    // ---------------------------------- MANAGE SOUND
+
+    
+
+    /////////////////////// ------------------- MANAGE SOUND
+
+    function createNotes(groupe, pos, color){
+        const geometry = new THREE.SphereGeometry(0.20, 24, 24);
+        // const color = THREE.MathUtils.randInt(0, 0xffffff)
+        const material = new THREE.MeshStandardMaterial({ color: color });
+        const note = new THREE.Mesh(geometry, material);
+
+        note.position.set( pos.x - 5.5, pos.y - 2, pos.z );
+        
+        notes_tab.push(note);
+        groupe.add(note)
+    }
+
     initTabNotes(ktab);
 
     p1 = 0.8;
@@ -314,11 +329,13 @@ function init() {
         {
             man['vca'].gain.value = 0.1;
             man['vca2'].gain.value = 0.1;
-            // console.log("lol");
         }
 
         man['vca'].gain.exponentialRampToValueAtTime(p1, ctx.currentTime );
         man['vca2'].gain.exponentialRampToValueAtTime(p2, ctx.currentTime );
+        
+        let key = tab['c'].children[0]['children'][0];
+        createNotes(notes_group, key.position,  tab['color']);
 
         container.rotation.x = 0.1;
     }
@@ -334,11 +351,13 @@ function init() {
             man['vca'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1);
             man['vca2'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1);
         }
+
         container.rotation.x = 0;
         
     }
-    
-    // ----------------- controls
+
+    ///////////////////////////// ----------------- controls
+
     document.addEventListener("keydown", setupKeyControls, false);
         function setupKeyControls(e) {
         ctx.resume();
@@ -348,6 +367,8 @@ function init() {
             {
                 let man = ktab[i]['man'];
                 let c = ktab[i]['c'];
+                ktab[i]['pressed'] = true;
+
                 soundNote(man, c, ktab[i]);
             }
         }
@@ -361,28 +382,31 @@ function init() {
             {
                 let man = ktab[i]['man'];
                 let c = ktab[i]['c'];
+                ktab[i]['pressed'] = false;
                 stopNote(man, c, ktab[i]);
             }
         }
     }
 
     
-    // Record 
-    let record = document.querySelector("#rec");
+    ///////////////////////////// Record 
+    // let record = document.querySelector("#rec");
 
-    record.addEventListener("click", function(e) {
-        if (!clicked) {
-            mediaRecorder.start();
-            e.target.innerHTML = "Stop recording";
-            clicked = true;
-        } else {
-            chunks = [];
-            clicked = false;
-            mediaRecorder.requestData();
-            mediaRecorder.stop();
-            e.target.innerHTML = "Record again";
-        }
-    });
+    // record.addEventListener("click", function(e) {
+    //     if (!clicked) {
+    //         mediaRecorder.start();
+    //         e.target.innerHTML = "Stop recording";
+    //         clicked = true;
+    //         document.querySelector("#download").hidden = true;
+    //     } else {
+    //         chunks = [];
+    //         clicked = false;
+    //         document.querySelector("#download").hidden = false;
+    //         mediaRecorder.requestData();
+    //         mediaRecorder.stop();
+    //         e.target.innerHTML = "Record again";
+    //     }
+    // });
 
 
 }
@@ -412,10 +436,21 @@ function animate() {
     var deltaTime = now - curTime;
     curTime = now;
     var fracTime = deltaTime / 1000; // in seconds
-    // Now we can move objects, camera, etc.
-    // Example: rotation cube
+
     var angle = 0.1 * Math.PI * 2 * fracTime; // one turn per 10 second.
     var angleR = fracTime * Math.PI * 2;
+
+    for (let i = 0; i < ktab.length; i++) {
+        if(ktab[i]['pressed'])
+        {
+            directionalLight.target = ktab[i]['c'];
+        }
+    }
+
+    notes_tab.forEach((n, i) => {
+        n.position.y += 0.05;
+    });
+
 }
 
 function changeVC01()

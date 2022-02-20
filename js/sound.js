@@ -32,7 +32,7 @@ let chunks = [];
 
 // Sounds visualisation
 var analyser = null;
-var canvas2;
+var canvas2 = null;
 var contexteCanvas;
 var tailleMemoireTampon;
 var tableauDonnees = new Uint8Array(tailleMemoireTampon);;
@@ -286,9 +286,8 @@ function init() {
             keytab[i]['man'].vco2.type = wave2;
             
             keytab[i]['man'].vco.frequency.value = keytab[i]['f'];
-            const startingPitch = keytab[i]['man'].vco.frequency.value;
             
-            keytab[i]['man'].vco2.frequency.value = transpose(startingPitch, 7);
+            keytab[i]['man'].vco2.frequency.value = transpose(keytab[i]['f'], 7);
 
 
             keytab[i]['man'].vco.connect(manager.vca);
@@ -377,7 +376,9 @@ function init() {
 
     
     // Record 
-    // document.querySelector("#rec").addEventListener("click", function(e) {
+    // let record = document.querySelector("#rec");
+
+    // record.addEventListener("click", function(e) {
     //     if (!clicked) {
     //         mediaRecorder.start();
     //         e.target.innerHTML = "Stop recording";

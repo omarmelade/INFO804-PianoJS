@@ -23,7 +23,6 @@ var ktab = null;
 var master = null;
 var p1 = null;
 var p2 = null;
-var analyser = null;
 
 // Sound recording 
 let dest;
@@ -31,6 +30,12 @@ let mediaRecorder;
 let clicked = false;
 let chunks = [];
 
+// Sounds visualisation
+var analyser = null;
+var canvas2;
+var contexteCanvas;
+var tailleMemoireTampon;
+var tableauDonnees = new Uint8Array(tailleMemoireTampon);;
 
 // sound ints array
 var dataArray = [];
@@ -224,30 +229,42 @@ function init() {
     ];
     
 
-    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    // const sleep = ms => new Promise(r => setTimeout(r, ms));
     
     master = ctx.createGain();
     master.gain.value = 0.02;
     master.connect(ctx.destination);
 
-    dest = ctx.createMediaStreamDestination();
-    mediaRecorder = new MediaRecorder(dest.stream);
-    master.connect(dest);
+    // dest = ctx.createMediaStreamDestination();
+    // mediaRecorder = new MediaRecorder(dest.stream);
+    // master.connect(dest);
 
-    mediaRecorder.ondataavailable = function(evt) {
-        // push each chunk (blobs) in an array
-        chunks.push(evt.data);
-    };
+    // mediaRecorder.ondataavailable = function(evt) {
+    //     // push each chunk (blobs) in an array
+    //     chunks.push(evt.data);
+    // };
 
-    mediaRecorder.onstop = function(evt) {
-        // Make blob out of our blobs, and open it.
-        let blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-        let audioTag = document.createElement('audio');
-        document.querySelector("audio").src = URL.createObjectURL(blob);
-    };
+    // mediaRecorder.onstop = function(evt) {
+    //     // Make blob out of our blobs, and open it.
+    //     let blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+    //     let audioTag = document.createElement('audio');
+    //     document.querySelector("audio").src = URL.createObjectURL(blob);
+    // };
+
+    // analyser = ctx.createAnalyser();
+    // analyser.connect(dest);
+
+    // analyser.fftSize = 2048;
+    // tailleMemoireTampon = analyser.frequencyBinCount;
+    // analyser.getByteTimeDomainData(tableauDonnees);
+    // canvas2 = document.getElementById("oscilloscope");
+    // contexteCanvas = canvas2.getContext("2d");
 
     // transpose note for better effect 
-    const transpose = (freq, steps) => freq * Math.pow(2, steps / 12);
+    function transpose(freq, steps)
+    {
+        return freq * Math.pow(2, steps / 12);
+    }
 
     let wave1 = document.querySelector('#vco1').selectedOptions[0].value;
     let wave2 = document.querySelector('#vco2').selectedOptions[0].value;
@@ -288,7 +305,6 @@ function init() {
         }
     }
 
-                
     // ---------------------------------- MANAGE SOUND
     initTabNotes(ktab);
 
@@ -332,7 +348,7 @@ function init() {
     
     // ----------------- controls
     document.addEventListener("keydown", setupKeyControls, false);
-    function setupKeyControls(e) {
+        function setupKeyControls(e) {
         ctx.resume();
         var k = e.keyCode;
         for (let i = 0; i < ktab.length; i++) {
@@ -360,21 +376,19 @@ function init() {
 
     
     // Record 
-
-    document.querySelector("#rec").addEventListener("click", function(e) {
-        if (!clicked) {
-            mediaRecorder.start();
-            e.target.innerHTML = "Stop recording";
-            clicked = true;
-        } else {
-            chunks = [];
-            clicked = false;
-            mediaRecorder.requestData();
-            mediaRecorder.stop();
-            e.target.innerHTML = "Record again";
-        }
-    });
-
+    // document.querySelector("#rec").addEventListener("click", function(e) {
+    //     if (!clicked) {
+    //         mediaRecorder.start();
+    //         e.target.innerHTML = "Stop recording";
+    //         clicked = true;
+    //     } else {
+    //         chunks = [];
+    //         clicked = false;
+    //         mediaRecorder.requestData();
+    //         mediaRecorder.stop();
+    //         e.target.innerHTML = "Record again";
+    //     }
+    // });
 
 
 }
@@ -408,9 +422,6 @@ function animate() {
     // Example: rotation cube
     var angle = 0.1 * Math.PI * 2 * fracTime; // one turn per 10 second.
     var angleR = fracTime * Math.PI * 2;
-
-
- 
 }
 
 function changeVC01()
@@ -455,3 +466,39 @@ function changeMasterVol()
     let val = document.querySelector("#masterVol").value / 100;
     master.gain.value = val;
 }
+
+
+// function dessiner() {
+
+//     requestAnimationFrame(dessiner);
+
+//     analyser.getByteTimeDomainData(tableauDonnees);
+
+//     contexteCanvas.fillStyle = 'rgb(200, 200, 200)';
+//     contexteCanvas.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+//     contexteCanvas.lineWidth = 2;
+//     contexteCanvas.strokeStyle = 'rgb(0, 0, 0)';
+
+//     contexteCanvas.beginPath();
+
+//     var sliceWidth = window.innerWidth * 1.0 / tailleMemoireTampon;
+//     var x = 0;
+
+//     for(var i = 0; i < tailleMemoireTampon; i++) {
+
+//     var v = tableauDonnees[i] / 128.0;
+//     var y = v * window.innerHeight/2;
+
+//     if(i === 0) {
+//         contexteCanvas.moveTo(x, y);
+//     } else {
+//         contexteCanvas.lineTo(x, y);
+//     }
+
+//     x += sliceWidth;
+//     }
+
+//     contexteCanvas.lineTo(canvas2.width, canvas2.height/2);
+//     contexteCanvas.stroke();
+// };

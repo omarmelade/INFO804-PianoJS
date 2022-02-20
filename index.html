@@ -12,7 +12,7 @@
     <script src="three.js"></script>
     <script src="js/Detector.js"></script>
     <script src="js/OrbitControls.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/script.js"></script>
 </head>
 
 <body>
@@ -65,19 +65,21 @@
                 </div>
             </div>
             <hr>
-            <div>
+            <!-- <div>
                 <label class="title"> Record </label><br>
                 <div class="recc">
                     <p><button id="rec">Record Piano sound</button></p>
                     <audio controls></audio>
                 </div>
-            </div>
+                <canvas id="oscilloscope"></canvas>
+            </div> -->
         </div>
     </div>
     <script>
         // We put the starting point of the javascript here, so that the whole page
         // is loaded before WebGL code is executed.
         init(); run();
+        dessiner();
     </script>
 </body>
 

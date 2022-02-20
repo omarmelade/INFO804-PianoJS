@@ -281,12 +281,12 @@ function init() {
   
             keytab[i]['man'] = manager;
 
-            const startingPitch = keytab[i]['man'].vco.frequency.value;
-
+            
             keytab[i]['man'].vco.type = wave1;
             keytab[i]['man'].vco2.type = wave2;
-
+            
             keytab[i]['man'].vco.frequency.value = keytab[i]['f'];
+            const startingPitch = keytab[i]['man'].vco.frequency.value;
             keytab[i]['man'].vco2.frequency.value = transpose(startingPitch, 7);
 
 

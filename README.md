@@ -11,5 +11,5 @@
 - You can adjust the volume of each track
 - You can record your song and listen it after.
 - You can see colored balls when you click on a note.
-### Features not able on safari :
+### Features not on safari :
 - Recording.

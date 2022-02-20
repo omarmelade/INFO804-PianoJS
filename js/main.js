@@ -25,6 +25,13 @@ var p1 = null;
 var p2 = null;
 var analyser = null;
 
+// Sound recording 
+let dest;
+let mediaRecorder;
+let clicked = false;
+let chunks = [];
+
+
 // sound ints array
 var dataArray = [];
 var bufferLength
@@ -207,30 +214,37 @@ function init() {
 
     ///// AUDIO CONTROLS
     ktab = [
-        { key: 65, f: 261.63, c: real_k1, man: {} }, 
-        { key: 90, f: 293.66, c: real_k2, man: {} }, 
-        { key: 69, f: 329.63, c: real_k3, man: {} }, 
-        { key: 82, f: 349.23, c: real_k4, man: {} }, 
-        { key: 84, f: 392.0,  c: real_k5, man: {} },
-        { key: 89, f: 440.0,  c: real_k6, man: {} },
-        { key: 85, f: 493.88, c: real_k7, man: {} }
+        { key: 65, f: 261.63, c: real_k1, man: {}, sTime: 0 }, 
+        { key: 90, f: 293.66, c: real_k2, man: {}, sTime: 0 }, 
+        { key: 69, f: 329.63, c: real_k3, man: {}, sTime: 0 }, 
+        { key: 82, f: 349.23, c: real_k4, man: {}, sTime: 0 }, 
+        { key: 84, f: 392.0,  c: real_k5, man: {}, sTime: 0 },
+        { key: 89, f: 440.0,  c: real_k6, man: {}, sTime: 0 },
+        { key: 85, f: 493.88, c: real_k7, man: {}, sTime: 0 }
     ];
     
+
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
     
     master = ctx.createGain();
     master.gain.value = 0.02;
-    // master.connect(ctx.destination);
+    master.connect(ctx.destination);
 
-    analyser = ctx.createAnalyser();
-    analyser.fftSize = 2048;
-    
-    bufferLength = analyser.frequencyBinCount;
-    dataArray = new Uint8Array(bufferLength);
-    analyser.getByteTimeDomainData(dataArray);
-    
-    master.connect(analyser);
-    analyser.connect(ctx.destination);
+    dest = ctx.createMediaStreamDestination();
+    mediaRecorder = new MediaRecorder(dest.stream);
+    master.connect(dest);
 
+    mediaRecorder.ondataavailable = function(evt) {
+        // push each chunk (blobs) in an array
+        chunks.push(evt.data);
+    };
+
+    mediaRecorder.onstop = function(evt) {
+        // Make blob out of our blobs, and open it.
+        let blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+        let audioTag = document.createElement('audio');
+        document.querySelector("audio").src = URL.createObjectURL(blob);
+    };
 
     // transpose note for better effect 
     const transpose = (freq, steps) => freq * Math.pow(2, steps / 12);
@@ -281,19 +295,37 @@ function init() {
     p1 = 0.8;
     p2 = 0.40;
     
-    async function soundNote(man, container) {
+    async function soundNote(man, container, tab) {
 
-        man['vca'].gain.exponentialRampToValueAtTime(p1, ctx.currentTime - 0.01);
+        tab['sTime'] = ctx.currentTime;
+        if(tab['sTime'] == 0)
+        {
+            man['vca'].gain.value = 0.1;
+            man['vca2'].gain.value = 0.1;
+            // console.log("lol");
+        }
+
+        man['vca'].gain.exponentialRampToValueAtTime(p1, ctx.currentTime );
         man['vca2'].gain.exponentialRampToValueAtTime(p2, ctx.currentTime );
 
         container.rotation.x = 0.1;
     }
 
-    async function stopNote(man, container) {
+    async function stopNote(man, container, tab) {
 
-        man['vca'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
-        man['vca2'].gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.5);
+        // console.log(ctx.currentTime, tab['sTime'], ctx.currentTime - tab['sTime']);
+        
+        if(ctx.currentTime - tab['sTime'] < 0.2)
+        {
+            man['vca'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.1);
+            man['vca2'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.1);
+            tab['sTime'] = 0;
+        }else{
+            man['vca'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1);
+            man['vca2'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1);
+        }
         container.rotation.x = 0;
+        
     }
 
 
@@ -308,7 +340,7 @@ function init() {
             {
                 let man = ktab[i]['man'];
                 let c = ktab[i]['c'];
-                soundNote(man, c);
+                soundNote(man, c, ktab[i]);
             }
         }
     }
@@ -321,10 +353,27 @@ function init() {
             {
                 let man = ktab[i]['man'];
                 let c = ktab[i]['c'];
-                stopNote(man, c);
+                stopNote(man, c, ktab[i]);
             }
         }
     }
+
+    
+    // Record 
+
+    document.querySelector("#rec").addEventListener("click", function(e) {
+        if (!clicked) {
+            mediaRecorder.start();
+            e.target.innerHTML = "Stop recording";
+            clicked = true;
+        } else {
+            chunks = [];
+            clicked = false;
+            mediaRecorder.requestData();
+            mediaRecorder.stop();
+            e.target.innerHTML = "Record again";
+        }
+    });
 
 
 
@@ -360,7 +409,6 @@ function animate() {
     var angle = 0.1 * Math.PI * 2 * fracTime; // one turn per 10 second.
     var angleR = fracTime * Math.PI * 2;
 
-    analyser.getByteTimeDomainData(dataArray);
 
  
 }

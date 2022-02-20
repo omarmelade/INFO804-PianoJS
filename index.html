@@ -11,7 +11,7 @@
     <script src="three.js"></script>
     <script src="js/Detector.js"></script>
     <script src="js/OrbitControls.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/main.js"></script>
 </head>
 
 <body>
@@ -59,6 +59,8 @@
                     <input id="p2Vol" class="p2 vol" onchange="changeP2Vol()" type="range" min="0.01" max="1" value="0.5" step="0.01" orient="vertical" />
                 </div>
             </div>
+            <p><button id="rec">Make sine wave</button></p>
+            <audio controls></audio>
         </div>
     </div>
     <script>

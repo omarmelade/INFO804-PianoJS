@@ -419,6 +419,8 @@ function init() {
 
 //////////////////////////
 
+    // comment to be tested
+
     function dispatchAnKeyEvent(key, keyCode, code, action)
     {
         document.dispatchEvent(new KeyboardEvent(action, {

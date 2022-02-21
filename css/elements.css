@@ -1,0 +1,134 @@
+/* Selectors ------------------------------*/
+
+select {
+    /* styling */
+    background-color: white;
+    border: thin solid black;
+    border-radius: 4px;
+    display: inline-block;
+    font: inherit;
+    line-height: 1.5em;
+    padding: 0.5em 3.5em 0.5em 1em;
+    /* reset */
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+select.minimal {
+    background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc);
+    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+}
+
+select.minimal:focus {
+    background-image: linear-gradient(45deg, green 50%, transparent 50%), linear-gradient(135deg, transparent 50%, green 50%), linear-gradient(to right, #ccc, #ccc);
+    background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+    outline: 0;
+}
+
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
+
+/* Sliders  ------------------------------ */
+
+.slidecontainer {
+    width: auto;
+}
+
+.slider[type=range][orient=vertical]{
+    -webkit-appearance: slider-vertical; /* Chromium */
+    writing-mode: bt-lr; /* IE */
+    width: 8px;
+    height: 175px;
+    padding: 0 2.5em;
+}
+
+
+/** Helper modal ------------------------------ */
+
+#info_modal_ico
+{
+    font-size: 2.5em;
+    line-height: 1.25;
+    color: rgb(238, 144, 144);
+}
+
+#info_modal_ico:hover
+{
+    color:rgb(255, 255, 255);
+}
+
+#modal {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+}
+
+#modal.open {
+    display: block;
+}
+
+#modal .mask {
+    background: black;
+    opacity: 0.8;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+#modal .container {
+    position: relative;
+    background: white;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 50vw;
+    height: auto;
+    min-height: 50px;
+}
+
+#modal .container .message {
+    font-weight: normal;
+    padding: 5% 15% 5% 5%;
+}
+
+#modal .container a.close {
+    text-decoration: none;
+    position: absolute;
+    right: 5%;
+    top: 4%;
+    color: #444;
+    font-size: 40px;
+    display: inline-block;
+}
+
+#modal .container a.close::after {
+    content: '';
+    width: 0px;
+    height: 5px;
+    display: block;
+    background: black;
+    transition: 300ms;
+}
+
+#modal .container a.close:hover::after {
+    color: black;
+    transition: 200ms ease-in-out;
+    width: 100%;
+}

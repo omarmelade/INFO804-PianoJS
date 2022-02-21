@@ -65,7 +65,6 @@ function init() {
 
     //  Create the sun map & geometry
     var piano = new THREE.MeshPhongMaterial({ color: 0xffffff });
-    var key2color = new THREE.MeshPhongMaterial({ color: 0xf1ff });
     var geometry = new THREE.BoxGeometry(5, 1, 2);
 
     key1 = new THREE.Mesh(geometry, piano);
@@ -185,14 +184,18 @@ function init() {
     notes_group = new THREE.Group();
 
     light = new THREE.PointLight( 0xffffff, 1.5);
-    light.position.set( -2, 10, 20);
+    light.position.set( 0, 10, 20);
+    light.intensity = 0.85;
     scene.add( light );
     
     
     const amL = new THREE.AmbientLight( 0x404040 ); // soft white light
     scene.add( amL );
     
-    directionalLight = new THREE.DirectionalLight( 0xf00fff, 0.5 );
+    directionalLight = new THREE.DirectionalLight( 0xf00fff, 1 );
+    directionalLight.position.set(0,0,20);
+    directionalLight.castShadow = true;
+    directionalLight.intensity = 0.3
     scene.add( directionalLight );
     scene.add( directionalLight.target );
 
@@ -203,7 +206,7 @@ function init() {
 
     //controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
     controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-    controls.dampingFactor = 0.25;
+    controls.dampingFactor = 0.25;  
     controls.screenSpacePanning = false;
     controls.minDistance = 1;
     controls.maxDistance = 20;
@@ -306,15 +309,15 @@ function init() {
     /////////////////////// ------------------- MANAGE SOUND
 
     function createNotes(groupe, pos, color){
-        const geometry = new THREE.SphereGeometry(0.20, 24, 24);
+        const geometry = new THREE.SphereGeometry(0.5, 32, 32);
         // const color = THREE.MathUtils.randInt(0, 0xffffff)
-        const material = new THREE.MeshStandardMaterial({ color: color });
+        const material = new THREE.MeshPhongMaterial({ color: color });
         const note = new THREE.Mesh(geometry, material);
 
-        note.position.set( pos.x - 5.5, pos.y - 2, pos.z );
+        note.position.set( pos.x - 5.5, pos.y - 2, pos.z - .3 );
         
         notes_tab.push(note);
-        groupe.add(note)
+        groupe.add(note);
     }
 
     initTabNotes(ktab);
@@ -324,6 +327,7 @@ function init() {
     
     async function soundNote(man, container, tab) {
 
+        const color = THREE.MathUtils.randInt(0, 0xffffff)
         tab['sTime'] = ctx.currentTime;
         if(tab['sTime'] == 0)
         {
@@ -336,6 +340,10 @@ function init() {
         
         let key = tab['c'].children[0]['children'][0];
         createNotes(notes_group, key.position,  tab['color']);
+
+        directionalLight.color =  new THREE.Color(tab['color']);
+        directionalLight.position.x = key.position.x;
+        console.log(key.position);
 
         container.rotation.x = 0.1;
     }
@@ -440,17 +448,17 @@ function animate() {
     var angle = 0.1 * Math.PI * 2 * fracTime; // one turn per 10 second.
     var angleR = fracTime * Math.PI * 2;
 
-    for (let i = 0; i < ktab.length; i++) {
-        if(ktab[i]['pressed'])
-        {
-            directionalLight.target = ktab[i]['c'];
-        }
-    }
+          
 
     notes_tab.forEach((n, i) => {
         n.position.y += 0.05;
+        if(notes_tab[i].position.y > 50)
+        {
+            notes_tab[i].visible = false;
+        }
     });
 
+    
 }
 
 function changeVC01()

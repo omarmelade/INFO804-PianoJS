@@ -36,7 +36,7 @@ var dataArray = [];
 var bufferLength
 
 // Audio context 
-var ctx = new (window.AudioContext || window.webkitAudioContext)();
+var ctx = new(window.AudioContext || window.webkitAudioContext)();
 
 // This function is called whenever the document is loaded
 function init() {
@@ -177,27 +177,27 @@ function init() {
     piano_group.add(real_k6);
     piano_group.add(real_k7);
 
-    piano_group.position.set(-3,0,0);
+    piano_group.position.set(-3, 0, 0);
 
 
     /////// NOTES GROUP
     notes_group = new THREE.Group();
 
-    light = new THREE.PointLight( 0xffffff, 1.5);
-    light.position.set( 0, 10, 20);
+    light = new THREE.PointLight(0xffffff, 1.5);
+    light.position.set(0, 10, 20);
     light.intensity = 0.85;
-    scene.add( light );
-    
-    
-    const amL = new THREE.AmbientLight( 0x404040 ); // soft white light
-    scene.add( amL );
-    
-    directionalLight = new THREE.DirectionalLight( 0xf00fff, 1 );
-    directionalLight.position.set(0,0,20);
+    scene.add(light);
+
+
+    const amL = new THREE.AmbientLight(0x404040); // soft white light
+    scene.add(amL);
+
+    directionalLight = new THREE.DirectionalLight(0xf00fff, 1);
+    directionalLight.position.set(0, 0, 20);
     directionalLight.castShadow = true;
     directionalLight.intensity = 0.3
-    scene.add( directionalLight );
-    scene.add( directionalLight.target );
+    scene.add(directionalLight);
+    scene.add(directionalLight.target);
 
 
     ////////////////////////////// CAMERA CONTROLS ------------------------------------------
@@ -206,7 +206,7 @@ function init() {
 
     //controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
     controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-    controls.dampingFactor = 0.25;  
+    controls.dampingFactor = 0.25;
     controls.screenSpacePanning = false;
     controls.minDistance = 1;
     controls.maxDistance = 20;
@@ -215,27 +215,27 @@ function init() {
     scene.add(piano_group);
     piano_group.rotation.x = 0.2;
     piano_group.position.y = -3;
-    
+
     piano_group.add(notes_group);
     scene.add(notes_group);
 
     //////////////////////////////// AUDIO CONTROLS
     ktab = [
-        { key: 65, f: 261.63, c: real_k1, man: {}, sTime: 0, pressed: false, color : 0xff0000 }, 
-        { key: 90, f: 293.66, c: real_k2, man: {}, sTime: 0, pressed: false, color : 0xff7f00 }, 
-        { key: 69, f: 329.63, c: real_k3, man: {}, sTime: 0, pressed: false, color : 0xffff00 }, 
-        { key: 82, f: 349.23, c: real_k4, man: {}, sTime: 0, pressed: false, color : 0x00ff00 }, 
-        { key: 84, f: 392.0,  c: real_k5, man: {}, sTime: 0, pressed: false, color : 0x0000ff },
-        { key: 89, f: 440.0,  c: real_k6, man: {}, sTime: 0, pressed: false, color : 0x4b0082 },
-        { key: 85, f: 493.88, c: real_k7, man: {}, sTime: 0, pressed: false, color : 0x7f00ff }
+        { key: 65, f: 261.63, c: real_k1, man: {}, sTime: 0, pressed: false, color: 0xff0000 },
+        { key: 90, f: 293.66, c: real_k2, man: {}, sTime: 0, pressed: false, color: 0xff7f00 },
+        { key: 69, f: 329.63, c: real_k3, man: {}, sTime: 0, pressed: false, color: 0xffff00 },
+        { key: 82, f: 349.23, c: real_k4, man: {}, sTime: 0, pressed: false, color: 0x00ff00 },
+        { key: 84, f: 392.0, c: real_k5, man: {}, sTime: 0, pressed: false, color: 0x0000ff },
+        { key: 89, f: 440.0, c: real_k6, man: {}, sTime: 0, pressed: false, color: 0x4b0082 },
+        { key: 85, f: 493.88, c: real_k7, man: {}, sTime: 0, pressed: false, color: 0x7f00ff }
     ];
-    
-    
+
+
     master = ctx.createGain();
     master.gain.value = 0.02;
     master.connect(ctx.destination);
 
-////// SAFARI UNCOMPATIBLE 
+    ////// SAFARI UNCOMPATIBLE 
 
     dest = ctx.createMediaStreamDestination();
     mediaRecorder = new MediaRecorder(dest.stream);
@@ -248,27 +248,25 @@ function init() {
 
     mediaRecorder.onstop = function(evt) {
         // Make blob out of our blobs, and open it.
-        let blob = new Blob(chunks, { 'type' : 'audio/mp3; codecs=opus' });
+        let blob = new Blob(chunks, { 'type': 'audio/mp3; codecs=opus' });
         let audioTag = document.createElement('audio');
         document.querySelector("audio").src = URL.createObjectURL(blob);
         document.querySelector("#download").href = URL.createObjectURL(blob);
         console.log(URL.createObjectURL(blob));
     };
 
-////////////////
+    ////////////////
 
 
     // transpose note for better effect 
-    function transpose(freq, steps)
-    {
+    function transpose(freq, steps) {
         return freq * Math.pow(2, steps / 12);
     }
 
     let wave1 = document.querySelector('#vco1').selectedOptions[0].value;
     let wave2 = document.querySelector('#vco2').selectedOptions[0].value;
 
-    function initTabNotes(keytab)
-    {
+    function initTabNotes(keytab) {
         for (let i = 0; i < keytab.length; i++) {
             const manager = {
                 vco: ctx.createOscillator(),
@@ -276,27 +274,27 @@ function init() {
                 vco2: ctx.createOscillator(),
                 vca2: ctx.createGain()
             }
-  
+
             keytab[i]['man'] = manager;
 
-            
+
             keytab[i]['man'].vco.type = wave1;
             keytab[i]['man'].vco2.type = wave2;
-            
+
             keytab[i]['man'].vco.frequency.value = keytab[i]['f'];
-            
+
             keytab[i]['man'].vco2.frequency.value = transpose(keytab[i]['f'], 7);
 
 
             keytab[i]['man'].vco.connect(manager.vca);
             keytab[i]['man'].vco2.connect(manager.vca2);
-            
+
             keytab[i]['man'].vca.connect(master);
             keytab[i]['man'].vca2.connect(master);
 
             keytab[i]['man'].vca.gain.value = 0.00001;
             keytab[i]['man'].vca2.gain.value = 0.00001;
-            
+
             keytab[i]['man'].vco.start();
             keytab[i]['man'].vco2.start();
 
@@ -304,18 +302,18 @@ function init() {
     }
 
 
-    
+
 
     /////////////////////// ------------------- MANAGE SOUND
 
-    function createNotes(groupe, pos, color){
+    function createNotes(groupe, pos, color) {
         const geometry = new THREE.SphereGeometry(0.5, 32, 32);
         // const color = THREE.MathUtils.randInt(0, 0xffffff)
         const material = new THREE.MeshPhongMaterial({ color: color });
         const note = new THREE.Mesh(geometry, material);
 
-        note.position.set( pos.x - 5.5, pos.y - 2, pos.z - .3 );
-        
+        note.position.set(pos.x - 5.5, pos.y - 2, pos.z - .3);
+
         notes_tab.push(note);
         groupe.add(note);
     }
@@ -324,24 +322,23 @@ function init() {
 
     p1 = 0.8;
     p2 = 0.40;
-    
+
     async function soundNote(man, container, tab) {
 
         const color = THREE.MathUtils.randInt(0, 0xffffff)
         tab['sTime'] = ctx.currentTime;
-        if(tab['sTime'] == 0)
-        {
+        if (tab['sTime'] == 0) {
             man['vca'].gain.value = 0.1;
             man['vca2'].gain.value = 0.1;
         }
 
-        man['vca'].gain.exponentialRampToValueAtTime(p1, ctx.currentTime );
-        man['vca2'].gain.exponentialRampToValueAtTime(p2, ctx.currentTime );
-        
-        let key = tab['c'].children[0]['children'][0];
-        createNotes(notes_group, key.position,  tab['color']);
+        man['vca'].gain.exponentialRampToValueAtTime(p1, ctx.currentTime);
+        man['vca2'].gain.exponentialRampToValueAtTime(p2, ctx.currentTime);
 
-        directionalLight.color =  new THREE.Color(tab['color']);
+        let key = tab['c'].children[0]['children'][0];
+        createNotes(notes_group, key.position, tab['color']);
+
+        directionalLight.color = new THREE.Color(tab['color']);
         directionalLight.position.x = key.position.x;
         console.log(key.position);
 
@@ -349,30 +346,29 @@ function init() {
     }
 
     async function stopNote(man, container, tab) {
-        
-        if(ctx.currentTime - tab['sTime'] < 0.2)
-        {
+
+        if (ctx.currentTime - tab['sTime'] < 0.2) {
             man['vca'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.1);
             man['vca2'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.1);
             tab['sTime'] = 0;
-        }else{
+        } else {
             man['vca'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1);
             man['vca2'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1);
         }
 
         container.rotation.x = 0;
-        
+
     }
 
     ///////////////////////////// ----------------- controls
 
     document.addEventListener("keydown", setupKeyControls, false);
-        function setupKeyControls(e) {
+
+    function setupKeyControls(e) {
         ctx.resume();
         var k = e.keyCode;
         for (let i = 0; i < ktab.length; i++) {
-            if (ktab[i]['key'] == k)
-            {
+            if (ktab[i]['key'] == k) {
                 let man = ktab[i]['man'];
                 let c = ktab[i]['c'];
                 ktab[i]['pressed'] = true;
@@ -383,11 +379,11 @@ function init() {
     }
 
     document.addEventListener("keyup", releaseNotes, false);
+
     function releaseNotes(e) {
         var k = e.keyCode;
         for (let i = 0; i < ktab.length; i++) {
-            if (ktab[i]['key'] == k)
-            {
+            if (ktab[i]['key'] == k) {
                 let man = ktab[i]['man'];
                 let c = ktab[i]['c'];
                 ktab[i]['pressed'] = false;
@@ -396,8 +392,8 @@ function init() {
         }
     }
 
-    
-///////////////////////////// SAFARI Uncompatible Record 
+
+    ///////////////////////////// SAFARI Uncompatible Record 
     let record = document.querySelector("#rec");
 
     record.addEventListener("click", function(e) {
@@ -417,12 +413,9 @@ function init() {
     });
 
 
-//////////////////////////
+    //////////////////////////
 
-    // comment to be tested
-
-    function dispatchAnKeyEvent(key, keyCode, code, action)
-    {
+    function dispatchAnKeyEvent(key, keyCode, code, action) {
         document.dispatchEvent(new KeyboardEvent(action, {
             key: key,
             keyCode: keyCode, // example values.
@@ -437,15 +430,15 @@ function init() {
     let accords = document.querySelector('#accords1');
     let accords2 = document.querySelector("#accords2");
     let accords3 = document.querySelector("#accords3");
+
     accords.onclick = () => {
-        async function run()
-        {
+        async function run() {
             dispatchAnKeyEvent("a", 65, "KeyA", "keydown");
             dispatchAnKeyEvent("e", 69, "KeyE", "keydown");
             dispatchAnKeyEvent("t", 84, "KeyT", "keydown");
-            
+
             await sleep(500);
-            
+
             dispatchAnKeyEvent("a", 65, "KeyA", "keyup");
             dispatchAnKeyEvent("e", 69, "KeyE", "keyup");
             dispatchAnKeyEvent("t", 84, "KeyT", "keyup");
@@ -454,8 +447,7 @@ function init() {
     }
 
     accords2.onclick = () => {
-        async function run()
-        {
+        async function run() {
             dispatchAnKeyEvent("z", 90, "KeyZ", "keydown");
             dispatchAnKeyEvent("r", 82, "KeyR", "keydown");
             dispatchAnKeyEvent("y", 89, "KeyY", "keydown");
@@ -469,21 +461,20 @@ function init() {
         run();
     }
     accords3.onclick = () => {
-        async function run()
-        {
+        async function run() {
             dispatchAnKeyEvent("e", 69, "KeyE", "keydown");
             dispatchAnKeyEvent("t", 84, "KeyT", "keydown");
             dispatchAnKeyEvent("u", 85, "KeyU", "keydown");
-            
+
             await sleep(500);
-            
+
             dispatchAnKeyEvent("e", 69, "KeyE", "keyup");
             dispatchAnKeyEvent("t", 84, "KeyT", "keyup");
             dispatchAnKeyEvent("u", 85, "KeyU", "keyup");
         }
         run();
     }
-    
+
 }
 
 // This function is called regularly to update the canvas webgl.
@@ -515,21 +506,19 @@ function animate() {
     var angle = 0.1 * Math.PI * 2 * fracTime; // one turn per 10 second.
     var angleR = fracTime * Math.PI * 2;
 
-          
+
 
     notes_tab.forEach((n, i) => {
         n.position.y += 0.05;
-        if(notes_tab[i].position.y > 50)
-        {
+        if (notes_tab[i].position.y > 50) {
             notes_tab[i].visible = false;
         }
     });
 
-    
+
 }
 
-function changeVC01()
-{
+function changeVC01() {
     let newWave = document.querySelector('#vco1').selectedOptions[0].value;
 
     for (let i = 0; i < ktab.length; i++) {
@@ -537,8 +526,7 @@ function changeVC01()
     }
 }
 
-function changeVC02()
-{
+function changeVC02() {
     let newWave = document.querySelector('#vco2').selectedOptions[0].value;
 
     for (let i = 0; i < ktab.length; i++) {
@@ -548,25 +536,21 @@ function changeVC02()
 
 // Volume controls
 
-function changeP2Vol()
-{
+function changeP2Vol() {
     p2 = document.querySelector("#p2Vol").value;
 }
 
-function changePisteVal(id, piste)
-{
-    piste = document.querySelector("#"+id).value;
+function changePisteVal(id, piste) {
+    piste = document.querySelector("#" + id).value;
     console.log(piste);
 }
 
-function changeP1Vol()
-{   
+function changeP1Vol() {
     p1 = document.querySelector("#p1Vol").value;
 }
 
 
-function changeMasterVol()
-{
+function changeMasterVol() {
     let val = document.querySelector("#masterVol").value / 100;
     master.gain.value = val;
 }

@@ -5,13 +5,19 @@
     <title>Piano JS</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <link href="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAenp6AL29vQD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAgICAAICAgIAAgICAgAAAAAAAAAAAAAAAAAAAAAAAAMDAwMAAwMDAwADAwMDAAADAwMDAAMDAwMAAwMDAwAAAwMDAwADAwMDAAMDAwMAAAMDAwMAAwMDAwADAwMDAAADAwMBAQEDAwEBAQMDAwAAAwMDAAAAAwMAAAADAwMAAAMDAwAAAAMDAAAAAwMDAAADAwMAAAADAwAAAAMDAwAAAwMDAAAAAwMAAAADAwMAAAMDAwAAAAMDAAAAAwMDAAADAwMAAAADAwAAAAMDAwAAAwMDAAAAAwMAAAADAwMAAAAAAAAAAAAAAAAAAAAAAIQhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" rel="icon" type="image/x-icon" />
+    
+    <link href="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAenp6AL29vQD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAgICAAICAgIAAgICAgAAAAAAAAAAAAAAAAAAAAAAAAMDAwMAAwMDAwADAwMDAAADAwMDAAMDAwMAAwMDAwAAAwMDAwADAwMDAAMDAwMAAAMDAwMAAwMDAwADAwMDAAADAwMBAQEDAwEBAQMDAwAAAwMDAAAAAwMAAAADAwMAAAMDAwAAAAMDAAAAAwMDAAADAwMAAAADAwAAAAMDAwAAAwMDAAAAAwMAAAADAwMAAAMDAwAAAAMDAAAAAwMDAAADAwMAAAADAwAAAAMDAwAAAwMDAAAAAwMAAAADAwMAAAAAAAAAAAAAAAAAAAAAAIQhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+        rel="icon" type="image/x-icon" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://unpkg.com/keyboard-css@1.2.2/dist/css/main.min.css" />
     <link rel="stylesheet" href="css/basic.css">
-    <link rel="stylesheet" href="css/selector.css">
+    <link rel="stylesheet" href="css/elements.css">
 
-    <script src="https://threejs.org/build/three.js"></script> 
+    <script src="https://threejs.org/build/three.js"></script>
     <script src="js/Detector.js"></script>
     <script src="js/OrbitControls.js"></script>
+    <script src="js/panel.js"></script>
     <script src="js/master.js"></script>
 </head>
 
@@ -22,16 +28,19 @@
         </div>
         <div class="controller">
             <div class="flex">
-                <img width="44px" height="44px" src="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAenp6AL29vQD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAgICAAICAgIAAgICAgAAAAAAAAAAAAAAAAAAAAAAAAMDAwMAAwMDAwADAwMDAAADAwMDAAMDAwMAAwMDAwAAAwMDAwADAwMDAAMDAwMAAAMDAwMAAwMDAwADAwMDAAADAwMBAQEDAwEBAQMDAwAAAwMDAAAAAwMAAAADAwMAAAMDAwAAAAMDAAAAAwMDAAADAwMAAAADAwAAAAMDAwAAAwMDAAAAAwMAAAADAwMAAAMDAwAAAAMDAAAAAwMDAAADAwMAAAADAwAAAAMDAwAAAwMDAAAAAwMAAAADAwMAAAAAAAAAAAAAAAAAAAAAAIQhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" rel="icon" type="image/x-icon""/>
-                <p class="no-mrg main-t">Piano JS </p>
+                <img width="44px" height="44px" src="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAenp6AL29vQD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAgICAAICAgIAAgICAgAAAAAAAAAAAAAAAAAAAAAAAAMDAwMAAwMDAwADAwMDAAADAwMDAAMDAwMAAwMDAwAAAwMDAwADAwMDAAMDAwMAAAMDAwMAAwMDAwADAwMDAAADAwMBAQEDAwEBAQMDAwAAAwMDAAAAAwMAAAADAwMAAAMDAwAAAAMDAAAAAwMDAAADAwMAAAADAwAAAAMDAwAAAwMDAAAAAwMAAAADAwMAAAMDAwAAAAMDAAAAAwMDAAADAwMAAAADAwAAAAMDAwAAAwMDAAAAAwMAAAADAwMAAAAAAAAAAAAAAAAAAAAAAIQhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+                    rel="icon" type="image/x-icon" "/>
+                    <p class="no-mrg main-t ">Piano JS </p>
+                    <i id="info_modal_ico" onclick="info_modal()" class="fa-solid fa-circle-info"></i>
             </div>
+
             <p class="tvco title"> Voltage-Controlled Oscillator</p>
             <div class="box vco-controller">
                 <div>
                     <label> VCO - 1 : Wave chooser</label>
                     <div class="div-select">
-                        <select class="minimal" id="vco1" onchange="changeVC01()">
-                            <option value="sine">Sine</option>
+                        <select class="minimal " id="vco1" onchange="changeVC01() ">
+                            <option value="sine ">Sine</option>
                             <option value="square">Square</option>
                           <option value="triangle" selected>Triangle</option>
                           <option value="sawtooth">Sawtooth</option>
@@ -41,7 +50,7 @@
                 <div>
                     <label> VCO - 2 : Wave chooser</label>
                     <div class="div-select">
-                        <select class="minimal" id="vco2" onchange="changeVC02()">
+                        <select class="minimal" id="vco2" onchange="changeVC02() ">
                             <option value="sine">Sine</option>
                             <option value="square">Square</option>
                             <option value="triangle">Triangle</option>
@@ -50,6 +59,7 @@
                 </div>
                 </div>
             </div>
+
             <hr/>
             <div>
                 <label class="title"> Volume </label><br>
@@ -59,26 +69,94 @@
                     <label class="p2 txt-vol">VCO 2</label>
                 </div>
                 <div>
-                    <input id="masterVol" class="master vol" onchange="changeMasterVol()" type="range" min="0" max="2" value="1" step="0.01"  orient="vertical">
-                    <input id="p1Vol" class="p1 vol" onchange="changeP1Vol()" type="range" min="0.01" max="1" value="0.5" step="0.01" orient="vertical" />
-                    <input id="p2Vol" class="p2 vol" onchange="changeP2Vol()" type="range" min="0.01" max="1" value="0.5" step="0.01" orient="vertical" />
+                    <input id="masterVol" class="master vol slider" onchange="changeMasterVol()" type="range" min="0" max="2" value="1" step="0.01" orient="vertical">
+                    <input id="p1Vol" class="p1 vol slider" onchange="changeP1Vol()" type="range" min="0.01" max="1" value="0.5" step="0.01" orient="vertical" />
+                    <input id="p2Vol" class="p2 vol slider" onchange="changeP2Vol()" type="range" min="0.01" max="1" value="0.5" step="0.01" orient="vertical" />
                 </div>
             </div>
             <hr/>
-            <label class="title"> Accords</label>
-            <div style="margin:0.6em">
+            <label class="title "> Accords</label>
+            <div style="margin:0.6em ">
                 <input type="button" id="accords1" value="accord 1">
                 <input type="button" id="accords2" value="accord 2">
                 <input type="button" id="accords3" value="accord 2">
             </div>
             <hr>
             <div>
-                <label class="title"> Record </label><br>
+                <label class="title"> Recording </label><br>
                 <div class="recc">
                     <p><button id="rec">Record Piano sound</button></p>
                     <audio controls></audio>
                 </div>
-                <a id="download" href="" download="your_piano_song.mp3" target="_blank" hidden>Download your sound !</a>
+                <a id="download" download="your_piano_song.mp3 " target="_blank " hidden>Download your sound !</a>
+            </div>
+        </div>
+    </div>
+    <div id="modal">
+        <div class="mask"></div>
+        <div class="container auto">
+            <div class="message">
+                <h1 class="no-mrg">INFORMATIONS</h1>
+                <a href="#" onclick="info_modal() " class="close">&times;</a>
+                    <p>Bienvenue sur Piano JS</p>
+                    <p>
+                        Je suis très fier de vous presenter une petite application en ThreeJS, 
+                        qui permet de jouer sur un piano en 3D, vous pouvez également vous déplacer sur la scène,
+                        même si il n'y a pas grand chose à faire.
+                        <p>
+                            Pour jouer du piano vous pouvez utiliser les touches suivantes : <br/>
+                            <kbd class="kbc-button">A</kbd>
+                            <kbd class="kbc-button">Z</kbd>
+                            <kbd class="kbc-button">E</kbd>
+                            <kbd class="kbc-button">R</kbd>
+                            <kbd class="kbc-button">T</kbd>
+                            <kbd class="kbc-button">Y</kbd>
+                            <kbd class="kbc-button">U</kbd>
+                        </p>
+                        
+
+                        <p>
+                            Il faut savoir que lorsque que vous jouer une note, il y'a en réalité 2 notes qui sont jouées,
+                            la note sur laquelle vous avez appuyé mais également cette note décalée d'une octave.
+                        </p>
+                        <p>
+                            Grâce au listes <b><i>Wave chooser</i></b> vous pouvez choisir la forme d'onde de votre oscillateur, ce qui aura pour effet,
+                            de modifier le son produit par celui-ci, certaines combinaisons sont très agréable à écouter, mais prenez garde ce n'est pas le cas
+                            de toutes.
+                        </p>
+                        <p>
+                            Pour vous rendre compte de l'interet d'avoir 2 oscillateur qui joue une note décalée<br/> d'une octave,
+                            vous pouvez désactiver à tour de rôle les Oscillateur (VCO), grâce au panneau <b><i>Volume</i></b>,
+                            le <i>MASTER</i> représente le volume genéral.
+                        </p>
+                        <p>
+                            Le panneau <b><i>Accords</i></b> vous permet simplement de jouer 3 accords differents, ce sont de simple boutons.
+                        </p>
+                        <p>
+                            Le panneau <b><i>Recording</i></b> vous permet d'enregistrer ce que vous jouez au piano, il suffit d'appuyer sur le bouton
+                            d'enregistrement <i>Record piano sound</i> puis de jouer, une fois fini de jouer appuyer sur le bouton de nouveau pour arrêter
+                            l'enregistrement. Vous pourrez alors écouter votre composition et même la <i>télécharger</i> avec le lien qui s'affichera en dessous.
+                        </p>
+               
+                        <p>
+                            <b>Ameliorations : </b><br/>
+                                Le piano ne produit pas le meilleur son possible et que les touches ont un problème de réactivité.
+                                Il y a des bugs que j'ai observé et sur lequels je reviendrais dans une prochaine version.
+                                Ce projet est mon premier qui touche à la <a href="https://developer.mozilla.org/fr/docs/Web/API/Web_Audio_API">WebAudioAPI</a> 
+                                et a <a href="https://threejs.org/">ThreeJS</a>.<br/>
+                        </p>
+                        <p>
+                            N'hesitez pas à me reporter les bugs que vous voyez sur la page github du projet : 
+                            <b><a href="https://github.com/omarmelade/pianoJS">pianoJS</a></b>
+                        </p>
+                        <p>
+                            J'espère que ce projet vous plait autant qu'a moi, n'hesitez pas a me suivre sur github <a href="https://github.com/omarmelade">@omarmelade</a>.
+                        </p>
+                        <div style=" display: flex; justify-content: center; align-items: center;">
+                            <label style="margin-right:10px;">Omar.</label>
+                            <img style="border-radius: 50%;" src="images/winnie.jpg" alt="myface" width="32px" height="32px">
+                        </div>
+                    </p>
             </div>
         </div>
     </div>

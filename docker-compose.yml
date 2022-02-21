@@ -1,10 +1,10 @@
 version: '2'
 services:
-  piano_js:
-    container_name: piano-js
+  piano_three_js:
+    container_name: piano-space
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '3718:3000'
+      - '3716:3000'
     restart: unless-stopped

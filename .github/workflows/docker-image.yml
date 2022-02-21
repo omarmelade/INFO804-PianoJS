@@ -2,9 +2,9 @@ name: Auto deploy
 
 on:
   push:
-    branches: [ master ]
+    branches: [ recordless-piano ]
   pull_request:
-    branches: [ master ]
+    branches: [ recordless-piano ]
 
 jobs:
 

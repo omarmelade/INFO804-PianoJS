@@ -458,6 +458,7 @@ function init() {
         }
         run();
     }
+
     accords3.onclick = () => {
         async function run() {
             dispatchAnKeyEvent("e", 69, "KeyE", "keydown");
@@ -472,8 +473,6 @@ function init() {
         }
         run();
     }
-    
-
 }
 
 // This function is called regularly to update the canvas webgl.
@@ -515,41 +514,4 @@ function animate() {
     });
 
 
-}
-
-function changeVC01() {
-    let newWave = document.querySelector('#vco1').selectedOptions[0].value;
-
-    for (let i = 0; i < ktab.length; i++) {
-        ktab[i]['man'].vco.type = newWave;
-    }
-}
-
-function changeVC02() {
-    let newWave = document.querySelector('#vco2').selectedOptions[0].value;
-
-    for (let i = 0; i < ktab.length; i++) {
-        ktab[i]['man'].vco2.type = newWave;
-    }
-}
-
-// Volume controls
-
-function changeP2Vol() {
-    p2 = document.querySelector("#p2Vol").value;
-}
-
-function changePisteVal(id, piste) {
-    piste = document.querySelector("#" + id).value;
-    console.log(piste);
-}
-
-function changeP1Vol() {
-    p1 = document.querySelector("#p1Vol").value;
-}
-
-
-function changeMasterVol() {
-    let val = document.querySelector("#masterVol").value / 100;
-    master.gain.value = val;
 }

@@ -417,6 +417,71 @@ function init() {
     });
 
 
+//////////////////////////
+
+    function dispatchAnKeyEvent(key, keyCode, code, action)
+    {
+        document.dispatchEvent(new KeyboardEvent(action, {
+            key: key,
+            keyCode: keyCode, // example values.
+            code: code, // put everything you need in this object.
+            which: keyCode
+        }));
+    }
+
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+
+    let accords = document.querySelector('#accords1');
+    let accords2 = document.querySelector("#accords2");
+    let accords3 = document.querySelector("#accords3");
+    accords.onclick = () => {
+        async function run()
+        {
+            dispatchAnKeyEvent("a", 65, "KeyA", "keydown");
+            dispatchAnKeyEvent("e", 69, "KeyE", "keydown");
+            dispatchAnKeyEvent("t", 84, "KeyT", "keydown");
+            
+            await sleep(500);
+            
+            dispatchAnKeyEvent("a", 65, "KeyA", "keyup");
+            dispatchAnKeyEvent("e", 69, "KeyE", "keyup");
+            dispatchAnKeyEvent("t", 84, "KeyT", "keyup");
+        }
+        run();
+    }
+
+    accords2.onclick = () => {
+        async function run()
+        {
+            dispatchAnKeyEvent("z", 90, "KeyZ", "keydown");
+            dispatchAnKeyEvent("r", 82, "KeyR", "keydown");
+            dispatchAnKeyEvent("y", 89, "KeyY", "keydown");
+
+            await sleep(500);
+
+            dispatchAnKeyEvent("z", 90, "KeyZ", "keyup");
+            dispatchAnKeyEvent("r", 82, "KeyR", "keyup");
+            dispatchAnKeyEvent("y", 89, "KeyY", "keyup");
+        }
+        run();
+    }
+    accords3.onclick = () => {
+        async function run()
+        {
+            dispatchAnKeyEvent("e", 69, "KeyE", "keydown");
+            dispatchAnKeyEvent("t", 84, "KeyT", "keydown");
+            dispatchAnKeyEvent("u", 85, "KeyU", "keydown");
+            
+            await sleep(500);
+            
+            dispatchAnKeyEvent("e", 69, "KeyE", "keyup");
+            dispatchAnKeyEvent("t", 84, "KeyT", "keyup");
+            dispatchAnKeyEvent("u", 85, "KeyU", "keyup");
+        }
+        run();
+    }
+    
 }
 
 // This function is called regularly to update the canvas webgl.

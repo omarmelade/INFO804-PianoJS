@@ -4,7 +4,7 @@ function info_modal() {
     var modal = document.getElementById('modal');
 
     if (modal.className == 'open') {
-        document.getElementById('modal').className = 'close';
+        modal.className = 'close';
     } else {
         modal.className = 'open';
     }
@@ -12,7 +12,6 @@ function info_modal() {
 
 
 // Wave select boxes
-
 
 function changeVC01() {
     let newWave = document.querySelector('#vco1').selectedOptions[0].value;

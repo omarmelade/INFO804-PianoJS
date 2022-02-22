@@ -101,6 +101,8 @@ select:-moz-focusring {
     width: 50vw;
     height: auto;
     min-height: 50px;
+    max-height: 80%;
+    overflow-y: auto;
 }
 
 #modal .container .message {

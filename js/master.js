@@ -38,6 +38,9 @@ var bufferLength
 // Audio context 
 var ctx = new(window.AudioContext || window.webkitAudioContext)();
 
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+
 // This function is called whenever the document is loaded
 function init() {
 
@@ -422,7 +425,7 @@ function init() {
         }));
     }
 
-    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    
 
 
     let accords = document.querySelector('#accords1');

@@ -217,7 +217,7 @@ function init() {
     // Finally, add the mesh to our scene
     scene.add(piano_group);
     piano_group.rotation.x = 0.2;
-    piano_group.position.y = -3;
+    piano_group.position.y = -2;
 
     piano_group.add(notes_group);
     scene.add(notes_group);
@@ -240,23 +240,23 @@ function init() {
 
     ////// SAFARI UNCOMPATIBLE 
 
-    // dest = ctx.createMediaStreamDestination();
-    // mediaRecorder = new MediaRecorder(dest.stream);
-    // master.connect(dest);
+    dest = ctx.createMediaStreamDestination();
+    mediaRecorder = new MediaRecorder(dest.stream);
+    master.connect(dest);
 
-    // mediaRecorder.ondataavailable = function(evt) {
-    //     // push each chunk (blobs) in an array
-    //     chunks.push(evt.data);
-    // };
+    mediaRecorder.ondataavailable = function(evt) {
+        // push each chunk (blobs) in an array
+        chunks.push(evt.data);
+    };
 
-    // mediaRecorder.onstop = function(evt) {
-    //     // Make blob out of our blobs, and open it.
-    //     let blob = new Blob(chunks, { 'type' : 'audio/mp3; codecs=opus' });
-    //     let audioTag = document.createElement('audio');
-    //     document.querySelector("audio").src = URL.createObjectURL(blob);
-    //     document.querySelector("#download").href = URL.createObjectURL(blob);
-    //     console.log(URL.createObjectURL(blob));
-    // };
+    mediaRecorder.onstop = function(evt) {
+        // Make blob out of our blobs, and open it.
+        let blob = new Blob(chunks, { 'type' : 'audio/mp3; codecs=opus' });
+        let audioTag = document.createElement('audio');
+        document.querySelector("audio").src = URL.createObjectURL(blob);
+        document.querySelector("#download").href = URL.createObjectURL(blob);
+        console.log(URL.createObjectURL(blob));
+    };
 
     ////////////////
 
@@ -397,23 +397,23 @@ function init() {
 
     
 ///////////////////////////// SAFARI Uncompatible Record 
-    // let record = document.querySelector("#rec");
+    let record = document.querySelector("#rec");
 
-    // record.addEventListener("click", function(e) {
-    //     if (!clicked) {
-    //         mediaRecorder.start();
-    //         e.target.innerHTML = "Stop recording";
-    //         clicked = true;
-    //         document.querySelector("#download").hidden = true;
-    //     } else {
-    //         chunks = [];
-    //         clicked = false;
-    //         document.querySelector("#download").hidden = false;
-    //         mediaRecorder.requestData();
-    //         mediaRecorder.stop();
-    //         e.target.innerHTML = "Record again";
-    //     }
-    // });
+    record.addEventListener("click", function(e) {
+        if (!clicked) {
+            mediaRecorder.start();
+            e.target.innerHTML = "Stop recording";
+            clicked = true;
+            document.querySelector("#download").hidden = true;
+        } else {
+            chunks = [];
+            clicked = false;
+            document.querySelector("#download").hidden = false;
+            mediaRecorder.requestData();
+            mediaRecorder.stop();
+            e.target.innerHTML = "Record again";
+        }
+    });
 ////////////////////////////////
 
     function dispatchAnKeyEvent(key, keyCode, code, action) {

@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - '3718:3000'
-    restart: unless-stopped
+    #ports:
+    #  - '3718:3000'
+    restart: always
 
 

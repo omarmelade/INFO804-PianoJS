@@ -10,42 +10,9 @@ function info_modal() {
     }
 }
 
-
-// Wave select boxes
-
-function changeVC01() {
-    let newWave = document.querySelector('#vco1').selectedOptions[0].value;
-
-    for (let i = 0; i < ktab.length; i++) {
-        ktab[i]['man'].vco.type = newWave;
-    }
-}
-
-function changeVC02() {
-    let newWave = document.querySelector('#vco2').selectedOptions[0].value;
-
-    for (let i = 0; i < ktab.length; i++) {
-        ktab[i]['man'].vco2.type = newWave;
-    }
-}
-
-// Slider volume controls
-
-function changeP2Vol() {
-    p2 = document.querySelector("#p2Vol").value;
-}
-
-function changePisteVal(id, piste) {
-    piste = document.querySelector("#" + id).value;
-    console.log(piste);
-}
-
-function changeP1Vol() {
-    p1 = document.querySelector("#p1Vol").value;
-}
-
-
 function changeMasterVol() {
+    console.log(document.querySelector("#masterVol").value);
     let val = document.querySelector("#masterVol").value / 100;
+    console.log(val);
     master.gain.value = val;
 }

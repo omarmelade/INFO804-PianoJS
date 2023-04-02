@@ -17,8 +17,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.138.3/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.101.1/examples/js/controls/OrbitControls.js"></script>
     <script src="js/Detector.js"></script>
-    <script src="js/panel.js"></script>
     <script src="js/master.js"></script>
+    <script src="js/panel.js"></script>
 </head>
 
 <body>
@@ -39,7 +39,7 @@
                 <div>
                     <label> VCO - 1 : Wave chooser</label>
                     <div class="div-select">
-                        <select class="minimal " id="vco1" onchange="changeVC01() ">
+                        <select class="minimal " id="vco1">
                             <option value="sine ">Sine</option>
                             <option value="square">Square</option>
                           <option value="triangle" selected>Triangle</option>
@@ -50,7 +50,7 @@
                 <div>
                     <label> VCO - 2 : Wave chooser</label>
                     <div class="div-select">
-                        <select class="minimal" id="vco2" onchange="changeVC02() ">
+                        <select class="minimal" id="vco2">
                             <option value="sine">Sine</option>
                             <option value="square">Square</option>
                             <option value="triangle">Triangle</option>
@@ -69,9 +69,9 @@
                     <label class="p2 txt-vol">VCO 2</label>
                 </div>
                 <div>
-                    <input id="masterVol" class="master vol slider" onchange="changeMasterVol()" type="range" min="0" max="2" value="1" step="0.01" orient="vertical">
-                    <input id="p1Vol" class="p1 vol slider" onchange="changeP1Vol()" type="range" min="0.01" max="1" value="0.5" step="0.01" orient="vertical" />
-                    <input id="p2Vol" class="p2 vol slider" onchange="changeP2Vol()" type="range" min="0.01" max="1" value="0.5" step="0.01" orient="vertical" />
+                    <input id="masterVol" class="master vol slider" onchange="changeMasterVol()" type="range" min="0" max="4" value="2" step="0.01" orient="vertical">
+                    <input id="p1Vol" class="p1 vol slider" type="range" min="0.01" max="2" value="0.5" step="0.01" orient="vertical" />
+                    <input id="p2Vol" class="p2 vol slider" type="range" min="0.01" max="2" value="1" step="0.01" orient="vertical" />
                 </div>
             </div>
             <hr/>
@@ -150,7 +150,7 @@
                             <b><a href="https://github.com/omarmelade/pianoJS">pianoJS</a></b>
                         </p>
                         <p>
-                            J'espère que ce projet vous plait autant qu'a moi, n'hesitez pas a me suivre sur github <a href="https://github.com/omarmelade">@omarmelade</a>.
+                            J'espère que ce projet vous plait autant qu'à moi, n'hesitez pas a me suivre sur github <a href="https://github.com/omarmelade">@omarmelade</a>.
                         </p>
                         <div style=" display: flex; justify-content: center; align-items: center;">
                             <label style="margin-right:10px;">Omar.</label>
@@ -161,8 +161,6 @@
         </div>
     </div>
     <script>
-        // We put the starting point of the javascript here, so that the whole page
-        // is loaded before WebGL code is executed.
         init(); run();
     </script>
 </body>

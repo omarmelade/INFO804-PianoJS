@@ -20,8 +20,6 @@ var sphere = null;
 
 var ktab = null;
 var master = null;
-var p1 = null;
-var p2 = null;
 
 // Sound recording 
 let dest;
@@ -213,13 +211,13 @@ function init() {
 
     //////////////////////////////// AUDIO CONTROLS
     ktab = [
-        { key: 65, f: 261.63, c: real_k1, man: {}, sTime: 0, pressed: false, color: 0xff0000 },
-        { key: 90, f: 293.66, c: real_k2, man: {}, sTime: 0, pressed: false, color: 0xff7f00 },
-        { key: 69, f: 329.63, c: real_k3, man: {}, sTime: 0, pressed: false, color: 0xffff00 },
-        { key: 82, f: 349.23, c: real_k4, man: {}, sTime: 0, pressed: false, color: 0x00ff00 },
-        { key: 84, f: 392.0, c: real_k5, man: {}, sTime: 0, pressed: false, color: 0x0000ff },
-        { key: 89, f: 440.0, c: real_k6, man: {}, sTime: 0, pressed: false, color: 0x4b0082 },
-        { key: 85, f: 493.88, c: real_k7, man: {}, sTime: 0, pressed: false, color: 0x7f00ff }
+        { key: 65, f: 261.63, c: real_k1, man: undefined, sTime: 0, pressed: false, color: 0xff0000 },
+        { key: 90, f: 293.66, c: real_k2, man: undefined, sTime: 0, pressed: false, color: 0xff7f00 },
+        { key: 69, f: 329.63, c: real_k3, man: undefined, sTime: 0, pressed: false, color: 0xffff00 },
+        { key: 82, f: 349.23, c: real_k4, man: undefined, sTime: 0, pressed: false, color: 0x00ff00 },
+        { key: 84, f: 392.0, c: real_k5, man: undefined, sTime: 0, pressed: false, color: 0x0000ff },
+        { key: 89, f: 440.0, c: real_k6, man: undefined, sTime: 0, pressed: false, color: 0x4b0082 },
+        { key: 85, f: 493.88, c: real_k7, man: undefined, sTime: 0, pressed: false, color: 0x7f00ff }
     ];
 
 
@@ -254,53 +252,49 @@ function init() {
     function transpose(freq, steps) {
         return freq * Math.pow(2, steps / 12);
     }
+    
+    function createOscillatorsAndGain(freq) {
 
-    let wave1 = document.querySelector('#vco1').selectedOptions[0].value;
-    let wave2 = document.querySelector('#vco2').selectedOptions[0].value;
+        let wave1 = document.querySelector('#vco1').selectedOptions[0].value;
+        let wave2 = document.querySelector('#vco2').selectedOptions[0].value;
+    
 
-    function initTabNotes(keytab) {
-        for (let i = 0; i < keytab.length; i++) {
-            const manager = {
-                vco: ctx.createOscillator(),
-                vca: ctx.createGain(),
-                vco2: ctx.createOscillator(),
-                vca2: ctx.createGain()
-            }
+        const vco = ctx.createOscillator();
+        const vco2 = ctx.createOscillator();
+        const vca = ctx.createGain();
+        const vca2 = ctx.createGain();
 
-            keytab[i]['man'] = manager;
+        vco.type = wave1;
+        vco2.type = wave2;
+        vco.frequency.value = freq;
+        vco2.frequency.value = transpose(freq, 7);
 
+        vco.connect(vca);
+        vco2.connect(vca2);
 
-            keytab[i]['man'].vco.type = wave1;
-            keytab[i]['man'].vco2.type = wave2;
+        vca.connect(master);
+        vca2.connect(master);
+        
+        vca.gain.value = 0.01;
+        vca2.gain.value = 0.01;
 
-            keytab[i]['man'].vco.frequency.value = keytab[i]['f'];
+        vco.start();
+        vco2.start();
 
-            keytab[i]['man'].vco2.frequency.value = transpose(keytab[i]['f'], 7);
-
-
-            keytab[i]['man'].vco.connect(manager.vca);
-            keytab[i]['man'].vco2.connect(manager.vca2);
-
-            keytab[i]['man'].vca.connect(master);
-            keytab[i]['man'].vca2.connect(master);
-
-            keytab[i]['man'].vca.gain.value = 0.00001;
-            keytab[i]['man'].vca2.gain.value = 0.00001;
-
-            keytab[i]['man'].vco.start();
-            keytab[i]['man'].vco2.start();
-
+        const manager = {
+            vco: vco,
+            vca: vca,
+            vco2: vco2,
+            vca2: vca2
         }
+        
+        return manager;
     }
-
-
-
 
     /////////////////////// ------------------- MANAGE SOUND
 
     function createNotes(groupe, pos, color) {
         const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-        // const color = THREE.MathUtils.randInt(0, 0xffffff)
         const material = new THREE.MeshPhongMaterial({ color: color });
         const note = new THREE.Mesh(geometry, material);
 
@@ -310,46 +304,41 @@ function init() {
         groupe.add(note);
     }
 
-    initTabNotes(ktab);
+    
+    
+    
+    async function soundNote(container, tab) {
+        
+        
+        const oscOld = tab['man'];
+        if (oscOld == undefined) {
+            
+            let p1 = document.querySelector("#p1Vol").value;
+            let p2 = document.querySelector("#p2Vol").value;
+            
+            const osc = createOscillatorsAndGain(tab['f']);
+            osc.vca.gain.exponentialRampToValueAtTime(p1, ctx.currentTime);
+            osc.vca2.gain.exponentialRampToValueAtTime(p2, ctx.currentTime);
 
-    p1 = 0.8;
-    p2 = 0.40;
-
-    async function soundNote(man, container, tab) {
-
-        const color = THREE.MathUtils.randInt(0, 0xffffff)
-        tab['sTime'] = ctx.currentTime;
-        if (tab['sTime'] == 0) {
-            man['vca'].gain.value = 0.1;
-            man['vca2'].gain.value = 0.1;
+            tab['man'] = osc;
         }
 
-        man['vca'].gain.exponentialRampToValueAtTime(p1, ctx.currentTime);
-        man['vca2'].gain.exponentialRampToValueAtTime(p2, ctx.currentTime);
-
+        // create little ball on top of key
         let key = tab['c'].children[0]['children'][0];
         createNotes(notes_group, key.position, tab['color']);
-
         directionalLight.color = new THREE.Color(tab['color']);
         directionalLight.position.x = key.position.x;
-        // console.log(key.position);
-
+        
         container.rotation.x = 0.1;
     }
 
-    async function stopNote(man, container, tab) {
+    async function stopNote(container, tab) {
 
-        if (ctx.currentTime - tab['sTime'] < 0.2) {
-            man['vca'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.1);
-            man['vca2'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.1);
-            tab['sTime'] = 0;
-        } else {
-            man['vca'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1);
-            man['vca2'].gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1);
-        }
-
+        const osc = tab['man'];
+        osc.vco.stop();
+        osc.vco2.stop();
+        tab['man'] = undefined;
         container.rotation.x = 0;
-
     }
 
     ///////////////////////////// ----------------- controls
@@ -361,11 +350,10 @@ function init() {
         var k = e.keyCode;
         for (let i = 0; i < ktab.length; i++) {
             if (ktab[i]['key'] == k) {
-                let man = ktab[i]['man'];
                 let c = ktab[i]['c'];
                 ktab[i]['pressed'] = true;
 
-                soundNote(man, c, ktab[i]);
+                soundNote(c, ktab[i]);
             }
         }
     }
@@ -376,10 +364,9 @@ function init() {
         var k = e.keyCode;
         for (let i = 0; i < ktab.length; i++) {
             if (ktab[i]['key'] == k) {
-                let man = ktab[i]['man'];
                 let c = ktab[i]['c'];
                 ktab[i]['pressed'] = false;
-                stopNote(man, c, ktab[i]);
+                stopNote(c, ktab[i]);
             }
         }
     }
@@ -408,14 +395,11 @@ function init() {
     function dispatchAnKeyEvent(key, keyCode, code, action) {
         document.dispatchEvent(new KeyboardEvent(action, {
             key: key,
-            keyCode: keyCode, // example values.
-            code: code, // put everything you need in this object.
+            keyCode: keyCode, 
+            code: code,
             which: keyCode
         }));
     }
-
-    
-
 
     let accords = document.querySelector('#accords1');
     let accords2 = document.querySelector("#accords2");

@@ -7,6 +7,9 @@
 - All browsers except Safari :
 [piano-js](https://piano.omarmelade.com)
 
+- Safari recordless :
+[piano-js](https://piano-old.omarmelade.com)
+
 ## Features
 
 ### With the all features website you can

@@ -5,8 +5,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - '3718:3000'
     restart: always
+    networks:
+     - npm-network
 
+networks:
+  npm-network:
+    external: true
 

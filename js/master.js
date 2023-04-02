@@ -225,7 +225,7 @@ function init() {
     master.gain.value = 0.02;
     master.connect(ctx.destination);
 
-    ////// SAFARI UNCOMPATIBLE 
+    ////// Media Recorder
 
     dest = ctx.createMediaStreamDestination();
     mediaRecorder = new MediaRecorder(dest.stream);
@@ -246,7 +246,6 @@ function init() {
     };
 
     ////////////////
-
 
     // transpose note for better effect 
     function transpose(freq, steps) {
@@ -372,7 +371,7 @@ function init() {
     }
 
     
-///////////////////////////// SAFARI Uncompatible Record 
+///////////////////////////// Record 
     let record = document.querySelector("#rec");
 
     record.addEventListener("click", function(e) {

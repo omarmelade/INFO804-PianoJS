@@ -203,17 +203,6 @@ function init() {
     scene.add(directionalLight.target);
 
 
-    ////////////////////////////// CAMERA CONTROLS ------------------------------------------
-
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
-
-    //controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
-    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-    controls.dampingFactor = 0.25;
-    controls.screenSpacePanning = false;
-    controls.minDistance = 1;
-    controls.maxDistance = 20;
-
     // Finally, add the mesh to our scene
     scene.add(piano_group);
     piano_group.rotation.x = 0.2;
@@ -497,18 +486,9 @@ function render() {
 
 // This function is called regularly to update objects.
 function animate() {
-
     // Computes how time has changed since last display
     var now = Date.now();
-    var deltaTime = now - curTime;
     curTime = now;
-    var fracTime = deltaTime / 1000; // in seconds
-
-    var angle = 0.1 * Math.PI * 2 * fracTime; // one turn per 10 second.
-    var angleR = fracTime * Math.PI * 2;
-
-
-
     notes_tab.forEach((n, i) => {
         n.position.y += 0.05;
         if (notes_tab[i].position.y > 50) {

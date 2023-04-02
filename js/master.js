@@ -256,35 +256,45 @@ function init() {
 
         let wave1 = document.querySelector('#vco1').selectedOptions[0].value;
         let wave2 = document.querySelector('#vco2').selectedOptions[0].value;
-    
+        let wave3 = document.querySelector('#vco3').selectedOptions[0].value;
 
         const vco = ctx.createOscillator();
         const vco2 = ctx.createOscillator();
+        const vco3 = ctx.createOscillator();
         const vca = ctx.createGain();
         const vca2 = ctx.createGain();
+        const vca3 = ctx.createGain();
 
         vco.type = wave1;
         vco2.type = wave2;
+        vco3.type = wave3;
         vco.frequency.value = freq;
         vco2.frequency.value = transpose(freq, 7);
+        vco3.frequency.value = transpose(freq, -7);
 
         vco.connect(vca);
         vco2.connect(vca2);
+        vco3.connect(vca3);
 
         vca.connect(master);
         vca2.connect(master);
+        vca3.connect(master);
         
         vca.gain.value = 0.01;
         vca2.gain.value = 0.01;
+        vca3.gain.value = 0.01;
 
         vco.start();
         vco2.start();
+        vco3.start();
 
         const manager = {
             vco: vco,
             vca: vca,
             vco2: vco2,
-            vca2: vca2
+            vca2: vca2,
+            vco3: vco3,
+            vca3: vca3
         }
         
         return manager;
@@ -314,10 +324,12 @@ function init() {
             
             let p1 = document.querySelector("#p1Vol").value;
             let p2 = document.querySelector("#p2Vol").value;
+            let p3 = document.querySelector("#p3Vol").value;
             
             const osc = createOscillatorsAndGain(tab['f']);
             osc.vca.gain.exponentialRampToValueAtTime(p1, ctx.currentTime);
             osc.vca2.gain.exponentialRampToValueAtTime(p2, ctx.currentTime);
+            osc.vca3.gain.exponentialRampToValueAtTime(p3, ctx.currentTime);
 
             tab['man'] = osc;
         }
@@ -336,6 +348,7 @@ function init() {
         const osc = tab['man'];
         osc.vco.stop();
         osc.vco2.stop();
+        osc.vco3.stop();
         tab['man'] = undefined;
         container.rotation.x = 0;
     }

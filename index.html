@@ -37,7 +37,7 @@
             <p class="tvco title"> Voltage-Controlled Oscillator</p>
             <div class="box vco-controller">
                 <div>
-                    <label> VCO - 1 : Wave chooser</label>
+                    <label> VCO - 1</label>
                     <div class="div-select">
                         <select class="minimal " id="vco1">
                             <option value="sine ">Sine</option>
@@ -48,15 +48,26 @@
                     </div>
                 </div>
                 <div>
-                    <label> VCO - 2 : Wave chooser</label>
+                    <label> VCO - 2</label>
                     <div class="div-select">
                         <select class="minimal" id="vco2">
                             <option value="sine">Sine</option>
                             <option value="square">Square</option>
                             <option value="triangle">Triangle</option>
                             <option value="sawtooth">Sawtooth</option>
-                    </select>
+                        </select>
+                    </div>
                 </div>
+                <div>
+                    <label> VCO - 3</label>
+                    <div class="div-select">
+                        <select class="minimal" id="vco3">
+                            <option value="sine">Sine</option>
+                            <option value="square">Square</option>
+                            <option value="triangle">Triangle</option>
+                            <option value="sawtooth">Sawtooth</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -67,11 +78,13 @@
                     <label class="master txt-vol">MASTER</label>
                     <label class="p1 txt-vol">VCO 1</label>
                     <label class="p2 txt-vol">VCO 2</label>
+                    <label class="p3 txt-vol">VCO 3</label>
                 </div>
                 <div>
                     <input id="masterVol" class="master vol slider" onchange="changeMasterVol()" type="range" min="0" max="4" value="2" step="0.01" orient="vertical">
                     <input id="p1Vol" class="p1 vol slider" type="range" min="0.01" max="2" value="0.5" step="0.01" orient="vertical" />
                     <input id="p2Vol" class="p2 vol slider" type="range" min="0.01" max="2" value="1" step="0.01" orient="vertical" />
+                    <input id="p3Vol" class="p3 vol slider" type="range" min="0.01" max="2" value="1" step="0.01" orient="vertical" />
                 </div>
             </div>
             <hr/>

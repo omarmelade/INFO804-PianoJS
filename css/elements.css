@@ -16,6 +16,7 @@ select {
     box-sizing: border-box;
     -webkit-appearance: none;
     -moz-appearance: none;
+    appearance: none;
 }
 
 select.minimal {
@@ -47,6 +48,7 @@ select:-moz-focusring {
 
 .slider[type=range][orient=vertical]{
     -webkit-appearance: slider-vertical; /* Chromium */
+    appearance: slider-vertical; /* Firefox */
     writing-mode: bt-lr; /* IE */
     width: 8px;
     height: 175px;

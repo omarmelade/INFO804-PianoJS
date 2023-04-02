@@ -24,11 +24,10 @@ body {
 .box {
     display: flex;
     text-align: center;
-    width: 25vw;
 }
 
 .flex {
-    padding: 1.5em 4em;
+    padding: 1.5em 0;
     display: flex;
     margin: 0 auto;
     width: fit-content;
@@ -46,6 +45,7 @@ body {
 .controller {
     color: white;
     background-color: grey;
+    width: 100%;
 }
 
 div.controller > *:not(hr) {
@@ -54,10 +54,19 @@ div.controller > *:not(hr) {
 
 .vco-controller {
     padding: 0.6em;
+    align-items: center;
+    justify-content: center;
+    margin-right: 3em;
+}
+
+.vco-controller div {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
 }
 
 div.div-select>* {
-    width: 11vw;
+    
     margin: .5em .5em;
 }
 

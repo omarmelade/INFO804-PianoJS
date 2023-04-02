@@ -14,11 +14,11 @@
     <link rel="stylesheet" href="css/basic.css">
     <link rel="stylesheet" href="css/elements.css">
 
-    <script src="https://threejs.org/build/three.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.138.3/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.101.1/examples/js/controls/OrbitControls.js"></script>
     <script src="js/Detector.js"></script>
-    <script src="js/OrbitControls.js"></script>
-    <script src="js/panel.js"></script>
     <script src="js/master.js"></script>
+    <script src="js/panel.js"></script>
 </head>
 
 <body>
@@ -37,9 +37,9 @@
             <p class="tvco title"> Voltage-Controlled Oscillator</p>
             <div class="box vco-controller">
                 <div>
-                    <label> VCO - 1 : Wave chooser</label>
+                    <label> VCO - 1</label>
                     <div class="div-select">
-                        <select class="minimal " id="vco1" onchange="changeVC01() ">
+                        <select class="minimal " id="vco1">
                             <option value="sine ">Sine</option>
                             <option value="square">Square</option>
                           <option value="triangle" selected>Triangle</option>
@@ -48,15 +48,26 @@
                     </div>
                 </div>
                 <div>
-                    <label> VCO - 2 : Wave chooser</label>
+                    <label> VCO - 2</label>
                     <div class="div-select">
-                        <select class="minimal" id="vco2" onchange="changeVC02() ">
+                        <select class="minimal" id="vco2">
                             <option value="sine">Sine</option>
                             <option value="square">Square</option>
                             <option value="triangle">Triangle</option>
                             <option value="sawtooth">Sawtooth</option>
-                    </select>
+                        </select>
+                    </div>
                 </div>
+                <div>
+                    <label> VCO - 3</label>
+                    <div class="div-select">
+                        <select class="minimal" id="vco3">
+                            <option value="sine">Sine</option>
+                            <option value="square">Square</option>
+                            <option value="triangle">Triangle</option>
+                            <option value="sawtooth">Sawtooth</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -67,11 +78,13 @@
                     <label class="master txt-vol">MASTER</label>
                     <label class="p1 txt-vol">VCO 1</label>
                     <label class="p2 txt-vol">VCO 2</label>
+                    <label class="p3 txt-vol">VCO 3</label>
                 </div>
                 <div>
-                    <input id="masterVol" class="master vol slider" onchange="changeMasterVol()" type="range" min="0" max="2" value="1" step="0.01" orient="vertical">
-                    <input id="p1Vol" class="p1 vol slider" onchange="changeP1Vol()" type="range" min="0.01" max="1" value="0.5" step="0.01" orient="vertical" />
-                    <input id="p2Vol" class="p2 vol slider" onchange="changeP2Vol()" type="range" min="0.01" max="1" value="0.5" step="0.01" orient="vertical" />
+                    <input id="masterVol" class="master vol slider" onchange="changeMasterVol()" type="range" min="0" max="4" value="2" step="0.01" orient="vertical">
+                    <input id="p1Vol" class="p1 vol slider" type="range" min="0.01" max="2" value="0.5" step="0.01" orient="vertical" />
+                    <input id="p2Vol" class="p2 vol slider" type="range" min="0.01" max="2" value="1" step="0.01" orient="vertical" />
+                    <input id="p3Vol" class="p3 vol slider" type="range" min="0.01" max="2" value="1" step="0.01" orient="vertical" />
                 </div>
             </div>
             <hr/>
@@ -133,7 +146,7 @@
                             Le panneau <b><i>Accords</i></b> vous permet simplement de jouer 3 accords differents, ce sont de simple boutons.
                         </p>
                         <p>
-                            Le panneau <b><i>Recording</i></b> vous permet d'enregistrer ce que vous jouez au piano, il suffit d'appuyer sur le bouton
+                            Le panneau <b><i>Recording</i></b> vous permet d'enregistrer ce que vous jouez au piano , il suffit d'appuyer sur le bouton
                             d'enregistrement <i>Record piano sound</i> puis de jouer, une fois fini de jouer appuyer sur le bouton de nouveau pour arrêter
                             l'enregistrement. Vous pourrez alors écouter votre composition et même la <i>télécharger</i> avec le lien qui s'affichera en dessous.
                         </p>
@@ -150,7 +163,7 @@
                             <b><a href="https://github.com/omarmelade/pianoJS">pianoJS</a></b>
                         </p>
                         <p>
-                            J'espère que ce projet vous plait autant qu'a moi, n'hesitez pas a me suivre sur github <a href="https://github.com/omarmelade">@omarmelade</a>.
+                            J'espère que ce projet vous plait autant qu'à moi, n'hesitez pas a me suivre sur github <a href="https://github.com/omarmelade">@omarmelade</a>.
                         </p>
                         <div style=" display: flex; justify-content: center; align-items: center;">
                             <label style="margin-right:10px;">Omar.</label>
@@ -161,8 +174,6 @@
         </div>
     </div>
     <script>
-        // We put the starting point of the javascript here, so that the whole page
-        // is loaded before WebGL code is executed.
         init(); run();
     </script>
 </body>
